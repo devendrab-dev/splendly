@@ -6,7 +6,7 @@ class CustomButton extends StatelessWidget {
     super.key,
     required this.title,
     this.onTap,
-    this.bgColor = const Color(0xFF7F3DFF), // Montra purple by default
+    this.bgColor = const Color(0xFF7F3DFF),
     this.textColor = Colors.white,
     this.fontSize = 16,
     this.height = 50,

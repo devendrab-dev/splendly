@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:money_tracker/core/constants/app_assets.dart';
+import 'package:money_tracker/core/providers/router_provider.dart';
 import 'package:money_tracker/core/theme/app_colors.dart';
 import 'package:money_tracker/core/theme/app_input_decoration.dart';
 import 'package:money_tracker/core/theme/app_text_style.dart';
@@ -202,7 +203,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         text: "Login",
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            GoRouter.of(context).go("/login");
+                            GoRouter.of(context).go(AppRoutes.loginPage);
                           },
                         style: TextStyle(
                           color: AppColors.primary,

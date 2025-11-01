@@ -6,13 +6,14 @@ class AppTheme {
     return ThemeData(
       primaryColor: AppColors.primary,
       scaffoldBackgroundColor: AppColors.whiteColor,
-
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.primary,
         primary: AppColors.primary,
         secondary: AppColors.secondary,
       ),
-
+      appBarTheme: AppBarTheme(
+        iconTheme: IconThemeData(color: AppColors.whiteColor),
+      ),
       checkboxTheme: CheckboxThemeData(
         fillColor: WidgetStateProperty.resolveWith<Color>((states) {
           if (states.contains(WidgetState.selected)) {

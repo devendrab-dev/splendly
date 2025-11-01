@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:money_tracker/core/providers/router_provider.dart';
 import 'package:money_tracker/core/theme/app_colors.dart';
 import 'package:money_tracker/core/theme/app_text_style.dart';
 import 'package:money_tracker/core/widgets/custom_button.dart';
@@ -72,14 +73,14 @@ class _OnBoardPageState extends State<OnBoardPage> {
             ),
             SizedBox(height: 25),
             CustomButton(
-              onTap: () => GoRouter.of(context).go("/signup"),
+              onTap: () => GoRouter.of(context).go(AppRoutes.signupPage),
               title: "Sign Up",
               textColor: AppColors.whiteColor,
               bgColor: AppColors.primary,
             ),
             SizedBox(height: 12),
             CustomButton(
-              onTap: () => GoRouter.of(context).go("/login"),
+              onTap: () => GoRouter.of(context).go(AppRoutes.loginPage),
               title: "Log In",
               textColor: AppColors.primary,
               bgColor: AppColors.primaryLight,
