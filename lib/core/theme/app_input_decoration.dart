@@ -8,6 +8,7 @@ class AppInputDecoration {
     Widget? suffixIcon,
   }) {
     return InputDecoration(
+      labelText: hintText,
       hintText: hintText,
       prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,

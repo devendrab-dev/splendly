@@ -17,7 +17,7 @@ class AppRoutes {
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: "/onboard",
+    initialLocation: "/account/add",
     routes: [
       GoRoute(
         path: "/onboard",
