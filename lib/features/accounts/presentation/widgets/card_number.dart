@@ -33,7 +33,7 @@ class _CardNumberFieldState extends State<CardNumberField> {
             });
           },
         ),
-        TextField(
+        TextFormField(
           controller: _controller,
           keyboardType: TextInputType.number,
           maxLength: _enterFull ? 16 : 4,
@@ -45,6 +45,17 @@ class _CardNumberFieldState extends State<CardNumberField> {
             counterText: "",
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
           ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "This field is required";
+            }
+            if (_enterFull && value.length != 16) {
+              return "Must be exactly 16 digits";
+            } else if (!_enterFull && value.length != 4) {
+              return "Must be exactly 4 digits";
+            }
+            return null;
+          },
         ),
       ],
     );

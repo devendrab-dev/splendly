@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:money_tracker/core/network/app_failure.dart';
 import 'package:money_tracker/core/providers/router_provider.dart';
 import 'package:money_tracker/core/theme/app_colors.dart';
-import 'package:money_tracker/core/theme/app_input_decoration.dart';
 import 'package:money_tracker/core/theme/app_text_style.dart';
 import 'package:money_tracker/core/widgets/custom_button.dart';
 import 'package:money_tracker/core/widgets/toast_message.dart';
@@ -65,7 +64,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 TextFormField(
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: AppInputDecoration.textField(hintText: "Email"),
+                  decoration: InputDecoration(hintText: "Email"),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your email';
@@ -83,7 +82,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 TextFormField(
                   controller: passwordController,
                   obscureText: _obscureText,
-                  decoration: AppInputDecoration.textField(
+                  decoration: InputDecoration(
                     hintText: "Password",
                     suffixIcon: IconButton(
                       icon: Icon(
