@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CardNumberField extends StatefulWidget {
-  const CardNumberField({super.key});
+  const CardNumberField({super.key, required this.controller});
+  final TextEditingController controller;
 
   @override
   State<CardNumberField> createState() => _CardNumberFieldState();
@@ -10,14 +11,6 @@ class CardNumberField extends StatefulWidget {
 
 class _CardNumberFieldState extends State<CardNumberField> {
   bool _enterFull = false;
-  final TextEditingController _controller = TextEditingController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -29,12 +22,12 @@ class _CardNumberFieldState extends State<CardNumberField> {
           onChanged: (value) {
             setState(() {
               _enterFull = value;
-              _controller.clear();
+              widget.controller.clear();
             });
           },
         ),
         TextFormField(
-          controller: _controller,
+          controller: widget.controller,
           keyboardType: TextInputType.number,
           maxLength: _enterFull ? 16 : 4,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -46,7 +39,7 @@ class _CardNumberFieldState extends State<CardNumberField> {
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
           ),
           validator: (value) {
-            if (value == null || value.isEmpty) {
+            if (value == null || value.trim().isEmpty) {
               return "This field is required";
             }
             if (_enterFull && value.length != 16) {

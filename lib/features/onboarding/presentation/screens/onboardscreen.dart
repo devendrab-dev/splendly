@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:money_tracker/core/providers/router_provider.dart';
-import 'package:money_tracker/core/theme/app_colors.dart';
+import 'package:money_tracker/core/constants/app_colors.dart';
 import 'package:money_tracker/core/theme/app_text_style.dart';
 import 'package:money_tracker/core/widgets/custom_button.dart';
 import 'package:money_tracker/features/onboarding/data/onboard_data.dart';

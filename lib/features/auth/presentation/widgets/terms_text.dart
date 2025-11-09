@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:money_tracker/core/theme/app_colors.dart';
+import 'package:money_tracker/core/constants/app_colors.dart';
 import 'package:money_tracker/core/theme/app_text_style.dart';
 
 class TermsText extends StatelessWidget {

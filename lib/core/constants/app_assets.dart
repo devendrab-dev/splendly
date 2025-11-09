@@ -4,8 +4,16 @@ class AppAssets {
   static const String onboard1 = 'assets/images/onboard/Illustration1.png';
   static const String onboard2 = 'assets/images/onboard/Illustration2.png';
   static const String onboard3 = 'assets/images/onboard/Illustration3.png';
-  static const String google = 'assets/images/onboard/google.png';
+
   static const String payPal = 'assets/images/onboard/bank.png';
+  static const String canaraBank = "assets/images/accounts/bank/canara_bank.png";
+  static const String rupayCard = "assets/images/accounts/cards/rupay.jpeg";
+  static const String masterCard = "assets/images/accounts/cards/master_card.png";
+  static const String googlePay = "assets/images/accounts/upi/Gpay.png";
+  static const String phonePay = "assets/images/accounts/upi/phonepe.jpeg";
+  static const String upi = "assets/images/accounts/upi/upi.jpeg";
+  
+  static const String google = 'assets/images/onboard/google.png';
 
   static const String iconHome = 'assets/images/icons/home.png';
   static const String iconProfile = 'assets/images/icons/profile.png';

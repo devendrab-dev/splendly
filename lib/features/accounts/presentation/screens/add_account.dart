@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:money_tracker/core/constants/account_types.dart';
-import 'package:money_tracker/core/theme/app_colors.dart';
+import 'package:money_tracker/core/constants/app_colors.dart';
+import 'package:money_tracker/core/providers/router_provider.dart';
 import 'package:money_tracker/core/theme/app_text_style.dart';
 import 'package:money_tracker/core/widgets/custom_button.dart';
-import 'package:money_tracker/core/widgets/toast_message.dart';
-import 'package:money_tracker/features/accounts/data/providers/balance_provider.dart';
+import 'package:money_tracker/features/accounts/data/hive_helper.dart';
+import 'package:money_tracker/features/accounts/data/models/account_model.dart';
+import 'package:money_tracker/features/accounts/data/providers/providers.dart';
 import 'package:money_tracker/features/accounts/presentation/widgets/card_number.dart';
 
 class AddAccount extends ConsumerStatefulWidget {
@@ -17,9 +20,11 @@ class AddAccount extends ConsumerStatefulWidget {
 
 class _AddAccountState extends ConsumerState<AddAccount> {
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController cardController = TextEditingController();
   final TextEditingController balanceController = TextEditingController(
     text: "0",
   );
+
   final _formKey = GlobalKey<FormState>();
   int? selectedIndex;
 
@@ -49,6 +54,7 @@ class _AddAccountState extends ConsumerState<AddAccount> {
   void dispose() {
     nameController.dispose();
     balanceController.dispose();
+    cardController.dispose();
     super.dispose();
   }
 
@@ -129,7 +135,7 @@ class _AddAccountState extends ConsumerState<AddAccount> {
                           ),
                           const SizedBox(height: 16),
                           DropdownButtonFormField<int>(
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               hintText: "Account Type",
                               border: OutlineInputBorder(),
                             ),
@@ -142,46 +148,73 @@ class _AddAccountState extends ConsumerState<AddAccount> {
                             ),
                             onChanged: (value) {
                               selectedIndex = value;
+                              ref.read(selectedLogoProvider.notifier).state = 0;
                               setState(() {});
                             },
                             validator: (value) => value == null
                                 ? "Please select account type"
                                 : null,
                           ),
-                          if (selectedIndex != null)
+                          if (selectedIndex != null &&
+                              accountTypes[selectedIndex!].logo.isNotEmpty)
                             Column(
                               children: [
                                 const SizedBox(height: 16),
                                 SizedBox(
                                   width: double.infinity,
-                                  child: Wrap(
-                                    alignment: WrapAlignment.start,
-                                    spacing: 12,
-                                    runSpacing: 12,
-                                    children: List.generate(
-                                      accountTypes[selectedIndex!].logo.length,
-                                      (index) {
-                                        return Container(
-                                          height: 42,
-                                          width: 62,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: AppColors.borderColor,
-                                            ),
-                                            borderRadius: BorderRadius.circular(
-                                              8,
-                                            ),
-                                          ),
-                                          child: Image.asset(
-                                            accountTypes[selectedIndex!]
-                                                .logo[index],
-                                            height: double.infinity,
-                                            width: double.infinity,
-                                            fit: BoxFit.contain,
-                                          ),
-                                        );
-                                      },
-                                    ),
+                                  child: Consumer(
+                                    builder: (context, ref, child) {
+                                      int? selectedType = ref.watch(
+                                        selectedLogoProvider,
+                                      );
+                                      return Wrap(
+                                        alignment: WrapAlignment.start,
+                                        spacing: 12,
+                                        runSpacing: 12,
+                                        children: List.generate(
+                                          accountTypes[selectedIndex!]
+                                              .logo
+                                              .length,
+                                          (index) {
+                                            return GestureDetector(
+                                              onTap: () {
+                                                ref
+                                                        .read(
+                                                          selectedLogoProvider
+                                                              .notifier,
+                                                        )
+                                                        .state =
+                                                    index;
+                                              },
+                                              child: Container(
+                                                height: 42,
+                                                width: 62,
+                                                clipBehavior: Clip.hardEdge,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    width: index == selectedType
+                                                        ? 2
+                                                        : 0,
+                                                    color: index == selectedType
+                                                        ? AppColors.primary
+                                                        : AppColors.borderColor,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(4),
+                                                ),
+                                                child: Image.asset(
+                                                  accountTypes[selectedIndex!]
+                                                      .logo[index],
+                                                  height: double.infinity,
+                                                  width: double.infinity,
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
                               ],
@@ -197,12 +230,31 @@ class _AddAccountState extends ConsumerState<AddAccount> {
                             ),
                           ),
                           const SizedBox(height: 16),
-                          if (selectedIndex == 1) const CardNumberField(),
+                          if (selectedIndex == 1)
+                            CardNumberField(controller: cardController),
                           const SizedBox(height: 16),
                           CustomButton(
-                            onTap: () {
+                            onTap: () async {
                               if (_formKey.currentState!.validate()) {
-                                showToast(message: "message");
+                                int log = ref.read(selectedLogoProvider);
+                                String balance = ref.read(balanceProvider);
+                                await HiveAccount.saveAccount(
+                                  AccountModel(
+                                    cardNumber: selectedIndex == 1
+                                        ? int.tryParse(cardController.text)
+                                        : null,
+                                    accountType:
+                                        accountTypes[selectedIndex!].name,
+                                    userName: nameController.text,
+                                    balance: parseFormattedBalance(balance),
+                                    imagePath:
+                                        accountTypes[selectedIndex!].logo[log],
+                                  ),
+                                );
+                                if (!context.mounted) return;
+                                GoRouter.of(
+                                  context,
+                                ).push(AppRoutes.successScreen);
                               }
                             },
                             title: "Continue",

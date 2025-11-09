@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:money_tracker/core/constants/hive_key.dart';
 import 'package:money_tracker/core/providers/router_provider.dart';
 import 'package:money_tracker/core/theme/app_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  await Hive.openBox("appBox");
+  await Hive.openBox(HiveKey.boxName);
   runApp(ProviderScope(child: const MyApp()));
 }
 

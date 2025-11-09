@@ -11,6 +11,13 @@ String formattedBalance({String? balance}) {
   return formatter.format(value);
 }
 
+double parseFormattedBalance(String formattedBalance) {
+  String cleaned = formattedBalance.replaceAll(RegExp(r'[^\d.]'), '');
+  return double.tryParse(cleaned) ?? 0.0;
+}
+
 final balanceProvider = StateProvider<String>((_) {
   return formattedBalance();
 });
+
+final selectedLogoProvider = StateProvider<int>((_) => 0);

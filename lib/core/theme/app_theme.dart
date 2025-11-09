@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'app_colors.dart';
+import '../constants/app_colors.dart';
 
 class AppTheme {
   static ThemeData get lightTheme {
@@ -46,7 +46,7 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: AppColors.error, width: 2),
         ),
-        hintStyle: TextStyle(color: AppColors.hintText, fontSize: 16),
+        hintStyle: TextStyle(fontSize: 16),
       ),
     );
   }

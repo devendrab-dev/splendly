@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:money_tracker/features/accounts/presentation/screens/add_account.dart';
+import 'package:money_tracker/features/accounts/presentation/screens/success.dart';
 import 'package:money_tracker/features/auth/presentation/screens/login.dart';
 import 'package:money_tracker/features/auth/presentation/screens/signup.dart';
 import 'package:money_tracker/features/home/presentation/screens/home_screen.dart';
@@ -8,24 +9,27 @@ import 'package:money_tracker/features/onboarding/presentation/screens/onboardsc
 
 class AppRoutes {
   static const String onboard = "/onboard";
-  
+
   static const String loginPage = "/auth/login";
   static const String signupPage = "/auth/signup";
 
   static const String addAccount = "/account/add";
+  static const String successScreen = "/account/success";
+
+  static const String homeScreen = "/home";
 }
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: "/account/add",
+    initialLocation: AppRoutes.addAccount,
     routes: [
       GoRoute(
-        path: "/onboard",
+        path: AppRoutes.onboard,
         builder: (context, state) => const OnBoardPage(),
       ),
       GoRoute(
         path: "/auth",
-        redirect: (_, __) => "/auth/login",
+        builder: (context, state) => const LoginPage(),
         routes: [
           GoRoute(
             path: "login",
@@ -39,16 +43,22 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: "/account",
-        redirect: (_, __) => "/account/add",
+        builder: (context, state) => const AddAccount(),
         routes: [
-          GoRoute(path: "add", builder: (context, state) => const AddAccount()),
-          // GoRoute(
-          //   path: "remove",
-          //   builder: (context, state) => const RemoveAccount(),
-          // ),
+          GoRoute(
+            path: "add",
+            builder: (context, state) => const AddAccount(),
+          ),
+          GoRoute(
+            path: "success",
+            builder: (context, state) => const SuccessScreen(),
+          ),
         ],
       ),
-      GoRoute(path: "/home", builder: (context, state) => const HomeScreen()),
+      GoRoute(
+        path: AppRoutes.homeScreen,
+        builder: (context, state) => const HomeScreen(),
+      ),
     ],
   );
 });
