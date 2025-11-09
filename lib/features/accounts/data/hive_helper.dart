@@ -26,6 +26,12 @@ class HiveAccount {
         .toList();
   }
 
+  static int totalAccount() {
+    var box = Hive.box(HiveKey.boxName);
+    List accountsMapList = box.get(HiveKey.accountData, defaultValue: []);
+    return accountsMapList.length;
+  }
+
   static AccountModel? getAccountAt(int index) {
     List<AccountModel> accounts = getAccountsList();
     if (index >= 0 && index < accounts.length) {

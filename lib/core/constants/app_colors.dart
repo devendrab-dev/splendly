@@ -14,6 +14,8 @@ class AppColors {
   static const Color cardBg = Color(0xFFF5F5F5);
   static const Color accentBg = Color(0xFFF0F0FF);
   static Color grey = Colors.grey.shade600;
+  static Color? grey300 = Colors.grey[300];
+  static Color? grey600 = Colors.grey[600];
 
   static const Color primaryText = Color(0xFF1A1A1A);
   static const Color secondaryText = Color(0xFF666666);

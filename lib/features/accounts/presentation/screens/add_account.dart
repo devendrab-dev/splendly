@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:money_tracker/core/constants/account_types.dart';
 import 'package:money_tracker/core/constants/app_colors.dart';
-import 'package:money_tracker/core/providers/router_provider.dart';
+import 'package:money_tracker/core/routes/routers.dart';
 import 'package:money_tracker/core/theme/app_text_style.dart';
 import 'package:money_tracker/core/widgets/custom_button.dart';
 import 'package:money_tracker/features/accounts/data/hive_helper.dart';
@@ -63,6 +63,7 @@ class _AddAccountState extends ConsumerState<AddAccount> {
     return Scaffold(
       backgroundColor: AppColors.primary,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: AppColors.primary,
         title: Text(
           "Add new account",
