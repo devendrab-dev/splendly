@@ -6,12 +6,16 @@ class AccountModel {
   double balance;
   int? cardNumber;
   String imagePath;
+  double income;
+  double expense;
 
   AccountModel({
     required this.accountType,
     required this.userName,
     required this.balance,
     required this.imagePath,
+    this.income = 0,
+    this.expense = 0,
     this.cardNumber,
   });
 
@@ -22,6 +26,8 @@ class AccountModel {
       'balance': balance,
       'cardNumber': cardNumber,
       'imagePath': imagePath,
+      'income': income,
+      'expense': expense,
     };
   }
 
@@ -32,6 +38,8 @@ class AccountModel {
       balance: map['balance'] as double,
       cardNumber: map['cardNumber'] != null ? map['cardNumber'] as int : null,
       imagePath: map['imagePath'] as String,
+      income: map['income'],
+      expense: map['expense'],
     );
   }
 

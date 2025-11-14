@@ -5,6 +5,7 @@ import 'package:money_tracker/core/constants/account_types.dart';
 import 'package:money_tracker/core/constants/app_colors.dart';
 import 'package:money_tracker/core/routes/routers.dart';
 import 'package:money_tracker/core/theme/app_text_style.dart';
+import 'package:money_tracker/core/widgets/amount_input.dart';
 import 'package:money_tracker/core/widgets/custom_button.dart';
 import 'package:money_tracker/features/accounts/data/hive_helper.dart';
 import 'package:money_tracker/features/accounts/data/models/account_model.dart';
@@ -223,7 +224,10 @@ class _AddAccountState extends ConsumerState<AddAccount> {
                           const SizedBox(height: 16),
                           TextField(
                             controller: balanceController,
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.numberWithOptions(
+                              decimal: true
+                            ),
+                            inputFormatters: [AmountInputFormatter()],
                             maxLength: 5,
                             decoration: InputDecoration(
                               counterText: "",

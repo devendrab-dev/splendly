@@ -4,6 +4,7 @@ import 'package:money_tracker/features/accounts/presentation/screens/add_account
 import 'package:money_tracker/features/accounts/presentation/screens/success.dart';
 import 'package:money_tracker/features/home/presentation/screens/home_screen.dart';
 import 'package:money_tracker/features/onboarding/presentation/screens/onboardscreen.dart';
+import 'package:money_tracker/features/transactions/presentation/screens/transaction_screen.dart';
 
 class AppRoutes {
   static const String onboard = "/onboard";
@@ -15,11 +16,12 @@ class AppRoutes {
   static const String successScreen = "/account/success";
 
   static const String homeScreen = "/home";
+  static const String transactionScreen = "/transactions";
 }
 
 final appRouter = GoRouter(
   initialLocation: HiveAccount.totalAccount() != 0
-      ? AppRoutes.homeScreen
+      ? AppRoutes.transactionScreen
       : AppRoutes.onboard,
   routes: [
     GoRoute(
@@ -40,6 +42,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.homeScreen,
       builder: (context, state) => const HomeScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.transactionScreen,
+      builder: (context, state) => TransactionScreen(),
     ),
   ],
 );

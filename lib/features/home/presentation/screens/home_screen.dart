@@ -1,40 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:money_tracker/features/accounts/data/hive_helper.dart';
-import 'package:money_tracker/features/accounts/data/models/account_model.dart';
+import 'package:money_tracker/core/constants/app_assets.dart';
+import 'package:money_tracker/core/constants/app_colors.dart';
+import 'package:money_tracker/core/theme/app_text_style.dart';
+import 'package:money_tracker/features/accounts/data/providers/providers.dart';
+import 'package:money_tracker/features/home/presentation/widgets/custom_card.dart';
+import 'package:money_tracker/features/home/presentation/widgets/transaction_list.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
   Widget build(BuildContext context) {
-    List<AccountModel> accounts = HiveAccount.getAccountsList();
-
-    for (var acc in accounts) {
-      debugPrint(
-        'Name: ${acc.userName}, Type: ${acc.accountType}, Balance: ${acc.balance}, Card: ${acc.cardNumber}, Image: ${acc.imagePath}',
-      );
-    }
-
     return Scaffold(
-      appBar: AppBar(title: const Text("Home Page")),
-      body: accounts.isEmpty
-          ? const Center(child: Text("No accounts saved"))
-          : ListView.builder(
-              itemCount: accounts.length,
-              itemBuilder: (context, index) {
-                final acc = accounts[index];
-                return ListTile(
-                  title: Text(acc.userName),
-                  subtitle: Text('${acc.accountType} - ₹${acc.balance}'),
-                  leading: acc.imagePath.isNotEmpty
-                      ? Image.asset(acc.imagePath, width: 40, height: 40)
-                      : null,
-                  trailing: acc.cardNumber != null
-                      ? Text(acc.cardNumber.toString())
-                      : null,
-                );
-              },
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Text(
+                  "Account Balance",
+                  style: TextStyle(
+                    color: AppColors.secondaryText,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                Text("₹500.00", style: AppTextStyles.heading1),
+                SizedBox(height: 12),
+                Row(
+                  children: [
+                    CustomCard(
+                      type: "INCOME",
+                      iconPath: AppAssets.income,
+                      ruppee: formattedBalance(balance: "234567897"),
+                      color: AppColors.green,
+                    ),
+                    SizedBox(width: 12),
+                    CustomCard(
+                      type: "EXPENSE",
+                      iconPath: AppAssets.expense,
+                      ruppee: formattedBalance(balance: "11250"),
+                      color: AppColors.error,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 24),
+                TransactionList(),
+              ],
             ),
+          ),
+        ),
+      ),
     );
   }
 }

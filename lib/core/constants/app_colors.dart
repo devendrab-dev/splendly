@@ -10,12 +10,21 @@ class AppColors {
   static const Color inactiveColor = Color.fromARGB(77, 102, 102, 102);
   static const Color iconInactive = Color(0xFFBDBDBD);
   static const Color whiteColor = Colors.white;
+  static const Color blackColor = Colors.black;
+  static const Color transparent = Colors.transparent;
   static const Color borderColor = Color(0xFFE0E0E0);
   static const Color cardBg = Color(0xFFF5F5F5);
   static const Color accentBg = Color(0xFFF0F0FF);
   static Color grey = Colors.grey.shade600;
   static Color? grey300 = Colors.grey[300];
   static Color? grey600 = Colors.grey[600];
+
+  static Color green = Color.fromRGBO(0, 168, 107, 1);
+
+  static Color? chipBgColor = Color.fromRGBO(252, 238, 212, 1);
+  static Color? chipColor = Color.fromRGBO(252, 172, 18, 1);
+  static Color? voilet20 = Color.fromRGBO(238, 229, 255, 1);
+  static Color? voilet = Color.fromRGBO(127, 61, 255, 1);
 
   static const Color primaryText = Color(0xFF1A1A1A);
   static const Color secondaryText = Color(0xFF666666);

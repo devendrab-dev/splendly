@@ -12,6 +12,7 @@ class AppTheme {
         secondary: AppColors.secondary,
       ),
       appBarTheme: AppBarTheme(
+        backgroundColor: AppColors.transparent,
         iconTheme: IconThemeData(color: AppColors.whiteColor),
       ),
       checkboxTheme: CheckboxThemeData(
