@@ -38,8 +38,8 @@ class AccountModel {
       balance: map['balance'] as double,
       cardNumber: map['cardNumber'] != null ? map['cardNumber'] as int : null,
       imagePath: map['imagePath'] as String,
-      income: map['income'],
-      expense: map['expense'],
+      income: map['income'] ?? 0,
+      expense: map['expense'] ?? 0,
     );
   }
 

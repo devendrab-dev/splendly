@@ -3,25 +3,28 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:money_tracker/core/constants/app_colors.dart';
 import 'package:money_tracker/core/theme/app_text_style.dart';
+import 'package:money_tracker/features/transactions/data/providers/handle_transaction.dart';
 import 'package:money_tracker/features/transactions/data/providers/transaction_type.dart';
 import 'package:money_tracker/features/transactions/presentation/widgets/expense_widget.dart';
 import 'package:money_tracker/features/transactions/presentation/widgets/segement_button.dart';
 
-class TransactionScreen extends StatelessWidget {
+class TransactionScreen extends ConsumerWidget {
   TransactionScreen({super.key});
 
   final List<String> labels = ["Expense", "Income", "Transfer"];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.transparent,
-        title: Text("Transactions", style: AppTextStyles.appBarTitle),
+        title: Text("Add Transactions", style: AppTextStyles.appBarTitle),
       ),
       floatingActionButton: FloatingActionButton.extended(
         label: Text("Save"),
-        onPressed: () {},
+        onPressed: () {
+          ref.read(expenseFormProvider).save();
+        },
         icon: Icon(LucideIcons.saveAll),
       ),
       body: SingleChildScrollView(

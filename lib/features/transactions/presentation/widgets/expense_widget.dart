@@ -1,37 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:money_tracker/core/constants/app_category.dart';
+import 'package:money_tracker/core/theme/app_text_style.dart';
 import 'package:money_tracker/core/widgets/amount_input.dart';
+import 'package:money_tracker/features/accounts/data/hive_helper.dart';
+import 'package:money_tracker/features/accounts/data/models/account_model.dart';
+import 'package:money_tracker/features/transactions/data/providers/handle_transaction.dart';
 
-class ExpenseWidget extends StatefulWidget {
+class ExpenseWidget extends ConsumerWidget {
   const ExpenseWidget({super.key});
 
   @override
-  State<ExpenseWidget> createState() => _ExpenseWidgetState();
-}
-
-class _ExpenseWidgetState extends State<ExpenseWidget> {
-  DateTime date = DateTime.now();
-  TimeOfDay time = TimeOfDay.now();
-
-  final amountCtrl = TextEditingController();
-  final noteCtrl = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
-  String category = "Others";
-  String paymentMode = "Cash";
-
-  @override
-  void dispose() {
-    amountCtrl.dispose();
-    noteCtrl.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final dateText = DateFormat("d MMM yyyy").format(date);
-    final timeText = time.format(context);
-
+  Widget build(BuildContext context, WidgetRef ref) {
+    final form = ref.watch(expenseFormProvider);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: Column(
@@ -42,15 +26,17 @@ class _ExpenseWidgetState extends State<ExpenseWidget> {
               Expanded(
                 child: _rowTile(
                   icon: Icons.calendar_today_outlined,
-                  title: dateText,
+                  title: DateFormat("d MMM yyyy").format(form.date),
                   onTap: () async {
                     final picked = await showDatePicker(
                       context: context,
-                      initialDate: date,
+                      initialDate: form.date,
                       firstDate: DateTime(2000),
                       lastDate: DateTime(2100),
                     );
-                    if (picked != null) setState(() => date = picked);
+                    if (picked != null) {
+                      form.setDate(picked);
+                    }
                   },
                 ),
               ),
@@ -58,13 +44,15 @@ class _ExpenseWidgetState extends State<ExpenseWidget> {
               Expanded(
                 child: _rowTile(
                   icon: Icons.access_time_outlined,
-                  title: timeText,
+                  title: form.time.format(context),
                   onTap: () async {
                     final picked = await showTimePicker(
                       context: context,
-                      initialTime: time,
+                      initialTime: form.time,
                     );
-                    if (picked != null) setState(() => time = picked);
+                    if (picked != null) {
+                      form.setTime(picked);
+                    }
                   },
                 ),
               ),
@@ -87,11 +75,11 @@ class _ExpenseWidgetState extends State<ExpenseWidget> {
               const SizedBox(width: 8),
               Expanded(
                 child: Form(
-                  key: _formKey,
+                  key: form.formKey,
                   child: TextFormField(
-                    controller: amountCtrl,
+                    controller: form.amountCtrl,
                     validator: (value) {
-                      if (value == null) {
+                      if (value == null || value.trim().isEmpty) {
                         return "Please enter amount";
                       }
                       return null;
@@ -117,15 +105,15 @@ class _ExpenseWidgetState extends State<ExpenseWidget> {
           _rowTile(
             icon: Icons.category_outlined,
             title: "Category",
-            subtitle: category,
-            onTap: () {},
+            subtitle: form.category,
+            onTap: () async => showCategoryPicker(context),
           ),
           const Divider(),
           _rowTile(
             icon: Icons.account_balance_wallet_outlined,
             title: "Payment mode",
-            subtitle: paymentMode,
-            onTap: () {},
+            subtitle: form.paymentMode,
+            onTap: () async => showPaymentPicker(context),
           ),
           const Divider(height: 30),
           const Text(
@@ -134,7 +122,7 @@ class _ExpenseWidgetState extends State<ExpenseWidget> {
           ),
           const SizedBox(height: 10),
           TextField(
-            controller: noteCtrl,
+            controller: form.noteCtrl,
             maxLines: 3,
             decoration: InputDecoration(
               hintText: "Write a note",
@@ -147,15 +135,182 @@ class _ExpenseWidgetState extends State<ExpenseWidget> {
               ),
             ),
           ),
-          const SizedBox(height: 20),
-          _rowTile(
-            icon: Icons.attachment_outlined,
-            title: "Add attachment",
-            onTap: () {},
-          ),
+          // const SizedBox(height: 20),
+          // _rowTile(
+          //   icon: Icons.attachment_outlined,
+          //   title: "Add attachment",
+          //   onTap: () {},
+          // ),
           const SizedBox(height: 80),
         ],
       ),
+    );
+  }
+
+  Future<ExpenseCategory?> showCategoryPicker(BuildContext context) {
+    return showModalBottomSheet<ExpenseCategory>(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.55,
+          maxChildSize: 0.85,
+          minChildSize: 0.40,
+          builder: (_, controller) {
+            return Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Select Category", style: AppTextStyles.heading3),
+                      IconButton(
+                        onPressed: () => GoRouter.of(context).pop(),
+                        icon: Icon(Icons.close, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Expanded(
+                    child: GridView.builder(
+                      controller: controller,
+                      itemCount: expenseCategories.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
+                            crossAxisSpacing: 18,
+                            mainAxisSpacing: 18,
+                            childAspectRatio: 0.75,
+                          ),
+                      itemBuilder: (context, index) {
+                        final item = expenseCategories[index];
+                        return InkWell(
+                          borderRadius: BorderRadius.circular(12),
+                          onTap: () => GoRouter.of(context).pop(),
+                          child: Column(
+                            children: [
+                              CircleAvatar(
+                                radius: 28,
+                                backgroundColor: item.color.withValues(
+                                  alpha: 0.15,
+                                ),
+                                child: SvgPicture.asset(
+                                  item.iconPath,
+                                  height: 28,
+                                  width: 28,
+                                  colorFilter: ColorFilter.mode(
+                                    item.color,
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                item.title,
+                                style: const TextStyle(fontSize: 12),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> showPaymentPicker(BuildContext context) {
+    List<AccountModel> accounts = HiveAccount.getAccountsList();
+    int radioValue = 0;
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return DraggableScrollableSheet(
+              expand: false,
+              initialChildSize: 0.55,
+              maxChildSize: 0.85,
+              minChildSize: 0.40,
+              builder: (_, controller) {
+                return Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Select Payment", style: AppTextStyles.heading3),
+                          IconButton(
+                            onPressed: () => GoRouter.of(context).pop(),
+                            icon: const Icon(
+                              Icons.close,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Expanded(
+                        child: ListView.builder(
+                          controller: controller,
+                          itemCount: accounts.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.grey.shade200,
+                                child: Container(
+                                  height: 30,
+                                  width: 136,
+                                  clipBehavior: Clip.antiAlias,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Image.asset(
+                                    accounts[index].imagePath,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
+                              title: Text(accounts[index].accountType),
+                              trailing: RadioGroup<int>(
+                                groupValue: radioValue,
+                                onChanged: (value) {
+                                  setState(() {
+                                    radioValue = value ?? 0;
+                                  });
+                                },
+                                child: Radio(value: index),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          },
+        );
+      },
     );
   }
 
