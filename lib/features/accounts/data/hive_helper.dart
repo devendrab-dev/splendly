@@ -26,6 +26,38 @@ class HiveAccount {
         .toList();
   }
 
+  static Future<void> updateBalance(AccountModel updated) async {
+    var box = Hive.box(HiveKey.boxName);
+    List accountsMapList = box.get(HiveKey.accountData, defaultValue: []);
+    int index = accountsMapList.indexWhere(
+      (m) => m["accountId"] == updated.accountId,
+    );
+    if (index == -1) return;
+    accountsMapList[index] = updated.toMap();
+    await box.put(HiveKey.accountData, accountsMapList);
+  }
+
+  static Future<void> transferAmount(AccountModel from, AccountModel to) async {
+    var box = Hive.box(HiveKey.boxName);
+
+    List accountsMapList = box.get(HiveKey.accountData, defaultValue: []);
+
+    int fromIndex = -1;
+    int toIndex = -1;
+
+    for (int i = 0; i < accountsMapList.length; i++) {
+      final map = Map<String, dynamic>.from(accountsMapList[i]);
+
+      if (map["accountId"] == from.accountId) fromIndex = i;
+      if (map["accountId"] == to.accountId) toIndex = i;
+      if (fromIndex != -1 && toIndex != -1) break;
+    }
+    if (fromIndex == -1 || toIndex == -1) return;
+    accountsMapList[fromIndex] = from.toMap();
+    accountsMapList[toIndex] = to.toMap();
+    await box.put(HiveKey.accountData, accountsMapList);
+  }
+
   static int totalAccount() {
     var box = Hive.box(HiveKey.boxName);
     List accountsMapList = box.get(HiveKey.accountData, defaultValue: []);

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:money_tracker/core/constants/app_category.dart';
 import 'package:money_tracker/core/widgets/amount_input.dart';
 import 'package:money_tracker/features/transactions/data/providers/handle_transaction.dart';
 import 'package:money_tracker/features/transactions/presentation/widgets/helper_widgets.dart';
 
-class ExpenseWidget extends ConsumerWidget {
-  const ExpenseWidget({super.key});
+class TransferWidget extends ConsumerWidget {
+  const TransferWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -99,18 +98,17 @@ class ExpenseWidget extends ConsumerWidget {
           ),
           const Divider(height: 30),
           rowTile(
-            icon: Icons.category_outlined,
-            title: "Category",
-            subtitle: form.category,
-            onTap: () async =>
-                showCategoryPicker(context, ref, expenseCategories),
+            icon: Icons.account_balance_wallet_outlined,
+            title: "From",
+            subtitle: form.fromAccount.accountType,
+            onTap: () async => showPaymentPicker(context, ref),
           ),
           const Divider(),
           rowTile(
             icon: Icons.account_balance_wallet_outlined,
-            title: "Payment mode",
-            subtitle: form.fromAccount.accountType,
-            onTap: () async => showPaymentPicker(context, ref),
+            title: "To",
+            subtitle: form.toAccount.accountType,
+            onTap: () async => showPaymentPicker(context, ref, toAccount: true),
           ),
           const Divider(height: 30),
           const Text(
@@ -133,7 +131,7 @@ class ExpenseWidget extends ConsumerWidget {
             ),
           ),
           // const SizedBox(height: 20),
-          // rowTile(
+          // _rowTile(
           //   icon: Icons.attachment_outlined,
           //   title: "Add attachment",
           //   onTap: () {},

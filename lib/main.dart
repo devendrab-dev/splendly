@@ -4,10 +4,12 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:money_tracker/core/constants/hive_key.dart';
 import 'package:money_tracker/core/routes/routers.dart';
 import 'package:money_tracker/core/theme/app_theme.dart';
+import 'package:money_tracker/features/transactions/data/models/transaction_type_adapter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+  Hive.registerAdapter(TransactionTypeAdapter());
   await Hive.openBox(HiveKey.boxName);
   runApp(ProviderScope(child: const MyApp()));
 }

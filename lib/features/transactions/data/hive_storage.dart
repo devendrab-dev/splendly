@@ -1,50 +1,52 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:money_tracker/core/constants/hive_key.dart';
-import 'package:money_tracker/features/transactions/data/models/expense_model.dart';
+import 'package:money_tracker/features/transactions/data/models/transaction_model.dart';
 
-class HiveAccount {
-  static Future<void> saveAccount(ExpenseModel account) async {
+class HiveTransaction {
+  static Future<void> saveTransaction(TransactionModel transaction) async {
     var box = Hive.box(HiveKey.boxName);
-    List accounts = box.get(HiveKey.expenseData, defaultValue: []);
-    accounts.add(account.toMap());
-    await box.put(HiveKey.expenseData, accounts);
+    List transactions = box.get(HiveKey.expenseData, defaultValue: []);
+    transactions.add(transaction.toMap());
+    await box.put(HiveKey.expenseData, transactions);
   }
 
-  static Future<void> saveAccountsList(List<ExpenseModel> accounts) async {
+  static Future<void> saveTransactionsList(
+    List<TransactionModel> transactions,
+  ) async {
     var box = Hive.box(HiveKey.boxName);
 
-    List accountsMap = accounts.map((a) => a.toMap()).toList();
+    List transactionsMap = transactions.map((a) => a.toMap()).toList();
 
-    await box.put(HiveKey.expenseData, accountsMap);
+    await box.put(HiveKey.expenseData, transactionsMap);
   }
 
-  static List<ExpenseModel> getAccountsList() {
+  static List<TransactionModel> getTransactionsList() {
     var box = Hive.box(HiveKey.boxName);
-    List accountsMapList = box.get(HiveKey.expenseData, defaultValue: []);
-    return accountsMapList
-        .map((map) => ExpenseModel.fromMap(Map<String, dynamic>.from(map)))
+    List transactionsMapList = box.get(HiveKey.expenseData, defaultValue: []);
+    return transactionsMapList
+        .map((map) => TransactionModel.fromMap(Map<String, dynamic>.from(map)))
         .toList();
   }
 
-  static int totalAccount() {
+  static int totalTransaction() {
     var box = Hive.box(HiveKey.boxName);
-    List accountsMapList = box.get(HiveKey.expenseData, defaultValue: []);
-    return accountsMapList.length;
+    List transactionsMapList = box.get(HiveKey.expenseData, defaultValue: []);
+    return transactionsMapList.length;
   }
 
-  static ExpenseModel? getAccountAt(int index) {
-    List<ExpenseModel> accounts = getAccountsList();
-    if (index >= 0 && index < accounts.length) {
-      return accounts[index];
+  static TransactionModel? getTransactionAt(int index) {
+    List<TransactionModel> transactions = getTransactionsList();
+    if (index >= 0 && index < transactions.length) {
+      return transactions[index];
     }
     return null;
   }
 
-  static Future<void> deleteAccountAt(int index) async {
-    var accounts = getAccountsList();
-    if (index >= 0 && index < accounts.length) {
-      accounts.removeAt(index);
-      await saveAccountsList(accounts);
+  static Future<void> deleteTransactionAt(int index) async {
+    var transactions = getTransactionsList();
+    if (index >= 0 && index < transactions.length) {
+      transactions.removeAt(index);
+      await saveTransactionsList(transactions);
     }
   }
 

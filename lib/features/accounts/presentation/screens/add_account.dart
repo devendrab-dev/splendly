@@ -225,7 +225,7 @@ class _AddAccountState extends ConsumerState<AddAccount> {
                           TextField(
                             controller: balanceController,
                             keyboardType: TextInputType.numberWithOptions(
-                              decimal: true
+                              decimal: true,
                             ),
                             inputFormatters: [AmountInputFormatter()],
                             maxLength: 5,
@@ -245,6 +245,9 @@ class _AddAccountState extends ConsumerState<AddAccount> {
                                 String balance = ref.read(balanceProvider);
                                 await HiveAccount.saveAccount(
                                   AccountModel(
+                                    accountId: DateTime.now()
+                                        .microsecondsSinceEpoch
+                                        .toString(),
                                     cardNumber: selectedIndex == 1
                                         ? int.tryParse(cardController.text)
                                         : null,

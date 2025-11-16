@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:money_tracker/core/constants/app_colors.dart';
+import 'package:money_tracker/features/transactions/data/providers/handle_transaction.dart';
 import 'package:money_tracker/features/transactions/data/providers/transaction_type.dart';
 
 class AnimatedSegmentedControl extends ConsumerStatefulWidget {
@@ -63,6 +64,7 @@ class _AnimatedSegmentedControlState
                           selectedIndex = index;
                           ref.read(transactionTypeProvider.notifier).state =
                               selectedIndex;
+                          ref.read(transactionFormProvider).reset();
                         });
                       },
                       child: Container(

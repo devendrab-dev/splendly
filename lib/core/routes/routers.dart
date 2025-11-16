@@ -21,7 +21,7 @@ class AppRoutes {
 
 final appRouter = GoRouter(
   initialLocation: HiveAccount.totalAccount() != 0
-      ? AppRoutes.transactionScreen
+      ? AppRoutes.homeScreen
       : AppRoutes.onboard,
   routes: [
     GoRoute(
@@ -30,7 +30,6 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: "/account",
-      builder: (context, state) => const AddAccount(),
       routes: [
         GoRoute(path: "add", builder: (context, state) => const AddAccount()),
         GoRoute(
@@ -38,6 +37,7 @@ final appRouter = GoRouter(
           builder: (context, state) => const SuccessScreen(),
         ),
       ],
+      builder: (context, state) => const AddAccount(),
     ),
     GoRoute(
       path: AppRoutes.homeScreen,

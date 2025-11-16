@@ -6,8 +6,8 @@ import 'package:money_tracker/core/widgets/amount_input.dart';
 import 'package:money_tracker/features/transactions/data/providers/handle_transaction.dart';
 import 'package:money_tracker/features/transactions/presentation/widgets/helper_widgets.dart';
 
-class ExpenseWidget extends ConsumerWidget {
-  const ExpenseWidget({super.key});
+class IncomeWidget extends ConsumerWidget {
+  const IncomeWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -103,7 +103,7 @@ class ExpenseWidget extends ConsumerWidget {
             title: "Category",
             subtitle: form.category,
             onTap: () async =>
-                showCategoryPicker(context, ref, expenseCategories),
+                showCategoryPicker(context, ref, incomeCategories),
           ),
           const Divider(),
           rowTile(
@@ -133,7 +133,7 @@ class ExpenseWidget extends ConsumerWidget {
             ),
           ),
           // const SizedBox(height: 20),
-          // rowTile(
+          // _rowTile(
           //   icon: Icons.attachment_outlined,
           //   title: "Add attachment",
           //   onTap: () {},

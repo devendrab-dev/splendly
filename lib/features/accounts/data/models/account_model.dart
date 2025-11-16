@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 class AccountModel {
+  String accountId;
   String accountType;
   String userName;
   double balance;
@@ -10,6 +11,7 @@ class AccountModel {
   double expense;
 
   AccountModel({
+    required this.accountId,
     required this.accountType,
     required this.userName,
     required this.balance,
@@ -21,6 +23,7 @@ class AccountModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'accountId': accountId,
       'accountType': accountType,
       'userName': userName,
       'balance': balance,
@@ -33,6 +36,7 @@ class AccountModel {
 
   factory AccountModel.fromMap(Map<String, dynamic> map) {
     return AccountModel(
+      accountId: map['accountId'] as String,
       accountType: map['accountType'] as String,
       userName: map['userName'] as String,
       balance: map['balance'] as double,
