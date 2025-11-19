@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:money_tracker/features/accounts/data/hive_helper.dart';
 import 'package:money_tracker/features/accounts/presentation/screens/add_account.dart';
 import 'package:money_tracker/features/accounts/presentation/screens/success.dart';
-import 'package:money_tracker/features/home/presentation/screens/home_screen.dart';
+import 'package:money_tracker/features/home/presentation/screens/place_holder.dart';
 import 'package:money_tracker/features/onboarding/presentation/screens/onboardscreen.dart';
 import 'package:money_tracker/features/transactions/presentation/screens/transaction_screen.dart';
 
@@ -41,7 +41,7 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.homeScreen,
-      builder: (context, state) => const HomeScreen(),
+      builder: (context, state) => const PlaceHolder(),
     ),
     GoRoute(
       path: AppRoutes.transactionScreen,

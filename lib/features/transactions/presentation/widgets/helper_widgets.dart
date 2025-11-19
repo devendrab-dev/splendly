@@ -14,7 +14,7 @@ Future<void> showPaymentPicker(
   WidgetRef ref, {
   bool toAccount = false,
 }) {
-  List<AccountModel> accounts = HiveAccount.getAccountsList();
+  List<AccountModel> accounts = HiveAccount.getAccountsList().accounts;
   int radioValue = 0;
   return showModalBottomSheet(
     context: context,

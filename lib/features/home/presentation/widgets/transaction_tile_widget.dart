@@ -31,12 +31,11 @@ class TransactionTile extends StatelessWidget {
       padding: const EdgeInsets.all(14),
       margin: const EdgeInsets.symmetric(vertical: 6),
       decoration: BoxDecoration(
-        color: AppColors.cardBg, // modern soft card background
+        color: AppColors.cardBg, 
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         children: [
-          // LEFT ICON
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -45,10 +44,7 @@ class TransactionTile extends StatelessWidget {
             ),
             child: SvgPicture.asset(model.iconPath, height: 26, width: 26),
           ),
-
           const SizedBox(width: 16),
-
-          // TITLE + SUBTITLE
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,8 +61,6 @@ class TransactionTile extends StatelessWidget {
               ],
             ),
           ),
-
-          // AMOUNT + TIME
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -77,7 +71,7 @@ class TransactionTile extends StatelessWidget {
                 ),
               ),
               Text(
-                formatTime(model.dateTime), // 10:00 AM
+                formatTime(model.dateTime), 
                 style: TextStyle(color: AppColors.secondaryText, fontSize: 12),
               ),
             ],

@@ -6,9 +6,18 @@ String formattedBalance({String? balance}) {
   final formatter = NumberFormat.currency(
     locale: 'en_IN',
     symbol: '₹',
-    decimalDigits: 1,
+    decimalDigits: 2,
   );
   return formatter.format(value);
+}
+
+String doubleToStringBalance(double balance) {
+  final formatter = NumberFormat.currency(
+    locale: 'en_IN',
+    symbol: '₹',
+    decimalDigits: 2,
+  );
+  return formatter.format(balance);
 }
 
 double parseFormattedBalance(String formattedBalance) {
@@ -18,6 +27,10 @@ double parseFormattedBalance(String formattedBalance) {
 
 final balanceProvider = StateProvider<String>((_) {
   return formattedBalance();
+});
+
+final accountSelProvider = StateProvider<int>((_) {
+  return 0;
 });
 
 final selectedLogoProvider = StateProvider<int>((_) => 0);

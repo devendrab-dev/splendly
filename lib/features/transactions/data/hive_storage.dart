@@ -28,6 +28,16 @@ class HiveTransaction {
         .toList();
   }
 
+  static List<TransactionModel> getTransactionsListById(String id) {
+    var box = Hive.box(HiveKey.boxName);
+    List transactionsMapList = box.get(HiveKey.expenseData, defaultValue: []);
+
+    return transactionsMapList
+        .where((map) => map['fromAccountId'] == id)
+        .map((map) => TransactionModel.fromMap(Map<String, dynamic>.from(map)))
+        .toList();
+  }
+
   static int totalTransaction() {
     var box = Hive.box(HiveKey.boxName);
     List transactionsMapList = box.get(HiveKey.expenseData, defaultValue: []);

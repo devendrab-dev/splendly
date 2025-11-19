@@ -13,7 +13,7 @@ class AppTheme {
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.transparent,
-        iconTheme: IconThemeData(color: AppColors.whiteColor),
+        // iconTheme: IconThemeData(color: AppColors.whiteColor),
       ),
       checkboxTheme: CheckboxThemeData(
         fillColor: WidgetStateProperty.resolveWith<Color>((states) {

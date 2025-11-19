@@ -1,5 +1,12 @@
 import 'dart:convert';
 
+class AccountResult {
+  final List<AccountModel> accounts;
+  final double total;
+
+  AccountResult({required this.accounts, required this.total});
+}
+
 class AccountModel {
   String accountId;
   String accountType;

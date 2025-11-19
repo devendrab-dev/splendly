@@ -24,7 +24,7 @@ class TransactionFormProvider extends ChangeNotifier {
   TimeOfDay time = TimeOfDay.now();
 
   TransactionFormProvider() {
-    accountsList = HiveAccount.getAccountsList();
+    accountsList = HiveAccount.getAccountsList().accounts;
     if (accountsList.isNotEmpty) {
       fromAccount = accountsList.first;
       toAccount = fromAccount;

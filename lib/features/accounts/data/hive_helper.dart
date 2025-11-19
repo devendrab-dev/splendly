@@ -18,12 +18,16 @@ class HiveAccount {
     await box.put(HiveKey.accountData, accountsMap);
   }
 
-  static List<AccountModel> getAccountsList() {
+  static AccountResult getAccountsList() {
     var box = Hive.box(HiveKey.boxName);
     List accountsMapList = box.get(HiveKey.accountData, defaultValue: []);
-    return accountsMapList
-        .map((map) => AccountModel.fromMap(Map<String, dynamic>.from(map)))
-        .toList();
+    double total = 0;
+    List<AccountModel> accounts = [];
+    for (var ac in accountsMapList) {
+      total += ac["balance"];
+      accounts.add(AccountModel.fromMap(Map<String, dynamic>.from(ac)));
+    }
+    return AccountResult(accounts: accounts, total: total);
   }
 
   static Future<void> updateBalance(AccountModel updated) async {
@@ -65,7 +69,7 @@ class HiveAccount {
   }
 
   static AccountModel? getAccountAt(int index) {
-    List<AccountModel> accounts = getAccountsList();
+    List<AccountModel> accounts = getAccountsList().accounts;
     if (index >= 0 && index < accounts.length) {
       return accounts[index];
     }
@@ -73,7 +77,7 @@ class HiveAccount {
   }
 
   static Future<void> deleteAccountAt(int index) async {
-    var accounts = getAccountsList();
+    List<AccountModel> accounts = getAccountsList().accounts;
     if (index >= 0 && index < accounts.length) {
       accounts.removeAt(index);
       await saveAccountsList(accounts);

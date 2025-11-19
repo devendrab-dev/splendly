@@ -5,12 +5,25 @@ import 'package:money_tracker/features/home/presentation/widgets/transaction_til
 import 'package:money_tracker/features/transactions/data/hive_storage.dart';
 import 'package:money_tracker/features/transactions/data/models/transaction_model.dart';
 
-class TransactionList extends StatelessWidget {
-  const TransactionList({super.key});
+class TransactionList extends StatefulWidget {
+  const TransactionList({super.key, required this.accountId});
+
+  final String accountId;
+
+  @override
+  State<TransactionList> createState() => _TransactionListState();
+}
+
+class _TransactionListState extends State<TransactionList> {
+  List<TransactionModel> list = [];
+  @override
+  void initState() {
+    list = HiveTransaction.getTransactionsListById(widget.accountId);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<TransactionModel> list = HiveTransaction.getTransactionsList();
     return Column(
       children: [
         Row(
@@ -40,10 +53,12 @@ class TransactionList extends StatelessWidget {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: list.length,
+                reverse: true,
                 itemBuilder: (context, index) {
                   return TransactionTile(model: list[index]);
                 },
               ),
+        SizedBox(height: 75),
       ],
     );
   }
