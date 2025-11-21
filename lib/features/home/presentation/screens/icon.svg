@@ -1,12 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
-  <rect width="1024" height="1024" rx="200" fill="#000000"/>
-  <g transform="translate(180,180) scale(0.75)" stroke="#FFFFFF" stroke-width="80" stroke-linecap="round" fill="none">
-    <path d="M512 60 A452 452 0 1 1 180 180"/>
+
+  <g transform="translate(180,180) scale(0.75)" stroke-linecap="round" fill="none">
+
+    <path d="M512 60 A452 452 0 1 1 180 180"
+          stroke="#13B9FD" stroke-width="80"/>
+
     <path d="M260 380 
              C380 240, 640 260, 760 380 
              C880 500, 760 660, 620 700 
-             C480 740, 300 700, 240 580"/>
-    <circle cx="780" cy="380" r="40" fill="#FFFFFF" stroke="none"/>
-    <circle cx="260" cy="380" r="40" fill="#FFFFFF" stroke="none"/>
+             C480 740, 300 700, 240 580"
+          stroke="#0FA5E4" stroke-width="80"/>
+
+    <circle cx="780" cy="380" r="40" fill="#13B9FD"/>
+    <circle cx="260" cy="380" r="40" fill="#13B9FD"/>
+
   </g>
 </svg>

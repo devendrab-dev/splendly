@@ -97,11 +97,13 @@ class _AddAccountState extends ConsumerState<AddAccount> {
                         Consumer(
                           builder: (_, ref, _) {
                             final balance = ref.watch(balanceProvider);
-                            return Text(
-                              balance,
-                              style: AppTextStyles.heading1.copyWith(
-                                fontSize: 54,
-                                color: AppColors.whiteColor,
+                            return FittedBox(
+                              child: Text(
+                                balance,
+                                style: AppTextStyles.heading1.copyWith(
+                                  fontSize: 54,
+                                  color: AppColors.whiteColor,
+                                ),
                               ),
                             );
                           },
@@ -228,7 +230,6 @@ class _AddAccountState extends ConsumerState<AddAccount> {
                               decimal: true,
                             ),
                             inputFormatters: [AmountInputFormatter()],
-                            maxLength: 5,
                             decoration: InputDecoration(
                               counterText: "",
                               hintText: "Balance",
