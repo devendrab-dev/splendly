@@ -20,8 +20,8 @@ class TransactionFormProvider extends ChangeNotifier {
   late String category;
   late String iconPath;
 
-  DateTime date = DateTime.now();
-  TimeOfDay time = TimeOfDay.now();
+  DateTime date = .now();
+  TimeOfDay time = .now();
 
   TransactionFormProvider() {
     accountsList = HiveAccount.getAccountsList().accounts;
@@ -66,8 +66,8 @@ class TransactionFormProvider extends ChangeNotifier {
     category = expenseCategories[0].title;
     iconPath = expenseCategories[0].iconPath;
 
-    date = DateTime.now();
-    time = TimeOfDay.now();
+    date = .now();
+    time = .now();
     if (accountsList.isNotEmpty) {
       fromAccount = accountsList.first;
       toAccount = fromAccount;
@@ -78,7 +78,7 @@ class TransactionFormProvider extends ChangeNotifier {
   void save(TransactionType type, BuildContext context) async {
     if (formKey.currentState!.validate()) {
       double amount = double.parse(amountCtrl.text.trim());
-      if (type == TransactionType.transfer) {
+      if (type == .transfer) {
         if (toAccount.accountId == fromAccount.accountId) {
           showBottomMessage(
             context,
@@ -90,7 +90,7 @@ class TransactionFormProvider extends ChangeNotifier {
         fromAccount.balance -= double.parse(amountCtrl.text.trim());
         toAccount.balance += double.parse(amountCtrl.text.trim());
         await HiveAccount.transferAmount(fromAccount, toAccount);
-      } else if (type == TransactionType.income) {
+      } else if (type == .income) {
         fromAccount.balance += amount;
         fromAccount.income += amount;
       } else {

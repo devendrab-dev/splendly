@@ -20,10 +20,10 @@ class CustomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.all(8),
+        padding: .all(8),
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: .circular(12),
         ),
         child: Row(
           children: [
@@ -31,13 +31,13 @@ class CustomCard extends StatelessWidget {
               backgroundColor: AppColors.whiteColor,
               child: SvgPicture.asset(
                 iconPath,
-                colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+                colorFilter: .mode(color, BlendMode.srcIn),
               ),
             ),
             SizedBox(width: 12),
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: .start,
                 children: [
                   Text(type, style: TextStyle(color: AppColors.whiteColor)),
                   FittedBox(

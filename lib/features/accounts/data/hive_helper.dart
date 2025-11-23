@@ -76,6 +76,22 @@ class HiveAccount {
     return null;
   }
 
+  static int getAccountIndex() {
+    var box = Hive.box(HiveKey.boxName);
+    List<AccountModel> accounts = getAccountsList().accounts;
+    String? selectedId = box.get(HiveKey.selectedAccount);
+
+    if (selectedId == null) return 0;
+
+    int index = accounts.indexWhere((ac) => ac.accountId == selectedId);
+    return index;
+  }
+
+  static Future<void> selectedAccount(String id) async {
+    var box = Hive.box(HiveKey.boxName);
+    await box.put(HiveKey.selectedAccount, id);
+  }
+
   static Future<void> deleteAccountAt(int index) async {
     List<AccountModel> accounts = getAccountsList().accounts;
     if (index >= 0 && index < accounts.length) {

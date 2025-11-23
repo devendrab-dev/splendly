@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:intl/intl.dart';
+import 'package:money_tracker/features/accounts/data/hive_helper.dart';
 
 String formattedBalance({String? balance}) {
   final value = double.tryParse(balance ?? "0") ?? 0;
@@ -30,7 +31,7 @@ final balanceProvider = StateProvider<String>((_) {
 });
 
 final accountSelProvider = StateProvider<int>((_) {
-  return 0;
+  return HiveAccount.getAccountIndex();
 });
 
 final selectedLogoProvider = StateProvider<int>((_) => 0);

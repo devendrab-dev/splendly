@@ -9,7 +9,7 @@ class AccountType {
 }
 
 const List<AccountType> accountTypes = [
-  AccountType(name: "Bank", logo: [AppAssets.canaraBank]),
+  AccountType(name: "Bank", logo: [AppAssets.canara]),
   AccountType(name: "Card", logo: [AppAssets.rupayCard, AppAssets.masterCard]),
   AccountType(
     name: "UPI",

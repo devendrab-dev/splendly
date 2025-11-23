@@ -59,8 +59,8 @@ class _OnBoardPageState extends State<OnBoardPage> {
                 return LayoutBuilder(
                   builder: (context, constraints) {
                     return Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: .max,
+                      mainAxisAlignment: .start,
                       children: [
                         SizedBox(
                           height: constraints.maxHeight * 0.55,
@@ -68,26 +68,26 @@ class _OnBoardPageState extends State<OnBoardPage> {
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Image.asset(
                               item.image,
-                              fit: BoxFit.contain,
+                              fit: .contain,
                               width: double.infinity,
                             ),
                           ),
                         ),
                         const SizedBox(height: 20),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          padding: const .symmetric(horizontal: 20),
                           child: Text(
                             item.title,
-                            textAlign: TextAlign.center,
+                            textAlign: .center,
                             style: AppTextStyles.heading1,
                           ),
                         ),
                         const SizedBox(height: 12),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          padding: const .symmetric(horizontal: 30),
                           child: Text(
                             item.description,
-                            textAlign: TextAlign.center,
+                            textAlign: .center,
                             style: TextStyle(
                               fontSize: 16,
                               color: AppColors.grey600,
@@ -106,19 +106,19 @@ class _OnBoardPageState extends State<OnBoardPage> {
               left: 0,
               right: 0,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: .center,
                 children: List.generate(
                   onboardData.length,
                   (dotIndex) => AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
-                    margin: const EdgeInsets.symmetric(horizontal: 5),
+                    margin: const .symmetric(horizontal: 5),
                     height: 8,
                     width: _currentIndex == dotIndex ? 24 : 8,
                     decoration: BoxDecoration(
                       color: _currentIndex == dotIndex
                           ? AppColors.primary
                           : AppColors.grey300,
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: .circular(4),
                     ),
                   ),
                 ),
@@ -133,7 +133,7 @@ class _OnBoardPageState extends State<OnBoardPage> {
                   child: Container(
                     decoration: BoxDecoration(
                       color: AppColors.primary,
-                      shape: BoxShape.circle,
+                      shape: .circle,
                       boxShadow: [
                         BoxShadow(
                           color: AppColors.primary,

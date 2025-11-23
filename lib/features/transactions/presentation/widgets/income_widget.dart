@@ -13,9 +13,9 @@ class IncomeWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final form = ref.watch(transactionFormProvider);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      padding: const .symmetric(horizontal: 16, vertical: 10),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: .start,
         children: [
           Row(
             children: [
@@ -56,7 +56,7 @@ class IncomeWidget extends ConsumerWidget {
           ),
           const SizedBox(height: 20),
           const Padding(
-            padding: EdgeInsets.only(left: 4, bottom: 6),
+            padding: .only(left: 4, bottom: 6),
             child: Text(
               "Amount",
               style: TextStyle(fontSize: 13, color: Colors.grey),
@@ -80,13 +80,13 @@ class IncomeWidget extends ConsumerWidget {
                       }
                       return null;
                     },
-                    keyboardType: const TextInputType.numberWithOptions(
+                    keyboardType: const .numberWithOptions(
                       decimal: true,
                     ),
                     inputFormatters: [AmountInputFormatter()],
                     style: const TextStyle(fontSize: 30),
                     decoration: const InputDecoration(
-                      border: InputBorder.none,
+                      border: .none,
                       isDense: true,
                       hintText: "0",
                       hintStyle: TextStyle(fontSize: 30),
@@ -127,8 +127,8 @@ class IncomeWidget extends ConsumerWidget {
               filled: true,
               fillColor: Colors.grey.shade100,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide.none,
+                borderRadius: .circular(12),
+                borderSide: .none,
               ),
             ),
           ),

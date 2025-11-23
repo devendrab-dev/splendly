@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:money_tracker/core/constants/app_colors.dart';
-import 'package:money_tracker/features/transactions/data/providers/handle_transaction.dart';
-import 'package:money_tracker/features/transactions/data/providers/transaction_type.dart';
 
-class AnimatedSegmentedControl extends ConsumerStatefulWidget {
-  const AnimatedSegmentedControl({super.key, required this.labels});
+class AnimatedSegmentedControl extends StatefulWidget {
+  const AnimatedSegmentedControl({
+    super.key,
+    required this.labels,
+    this.onChanged,
+  });
 
   final List<String> labels;
+  final Function(int onChanged)? onChanged;
 
   @override
-  ConsumerState<AnimatedSegmentedControl> createState() =>
+  State<AnimatedSegmentedControl> createState() =>
       _AnimatedSegmentedControlState();
 }
 
-class _AnimatedSegmentedControlState
-    extends ConsumerState<AnimatedSegmentedControl> {
+class _AnimatedSegmentedControlState extends State<AnimatedSegmentedControl> {
   int selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      padding: const EdgeInsets.all(6),
+      margin: const .symmetric(horizontal: 20, vertical: 12),
+      padding: const .all(6),
       decoration: BoxDecoration(
         color: AppColors.grey300,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: .circular(14),
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
           final segmentWidth = constraints.maxWidth / widget.labels.length;
           return Stack(
-            alignment: Alignment.centerLeft,
+            alignment: .centerLeft,
             children: [
               AnimatedPositioned(
                 duration: const Duration(milliseconds: 250),
@@ -42,7 +42,7 @@ class _AnimatedSegmentedControlState
                   height: 42,
                   decoration: BoxDecoration(
                     color: AppColors.whiteColor,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: .circular(10),
                     boxShadow: [
                       BoxShadow(
                         color: AppColors.blackColor.withValues(alpha: 0.1),
@@ -58,25 +58,21 @@ class _AnimatedSegmentedControlState
                   final isSelected = index == selectedIndex;
                   return Expanded(
                     child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
+                      behavior: .opaque,
                       onTap: () {
                         setState(() {
                           selectedIndex = index;
-                          ref.read(transactionTypeProvider.notifier).state =
-                              selectedIndex;
-                          ref.read(transactionFormProvider).reset();
+                          widget.onChanged?.call(index);
                         });
                       },
                       child: Container(
                         height: 42,
-                        alignment: Alignment.center,
+                        alignment: .center,
                         child: AnimatedDefaultTextStyle(
                           duration: const Duration(milliseconds: 200),
                           style: TextStyle(
                             color: AppColors.blackColor,
-                            fontWeight: isSelected
-                                ? FontWeight.w600
-                                : FontWeight.w500,
+                            fontWeight: isSelected ? .w600 : .w500,
                             fontSize: 15,
                           ),
                           child: Text(widget.labels[index]),

@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:go_router/go_router.dart';
 import 'package:money_tracker/features/accounts/data/hive_helper.dart';
 import 'package:money_tracker/features/accounts/presentation/screens/add_account.dart';
@@ -20,6 +21,7 @@ class AppRoutes {
 }
 
 final appRouter = GoRouter(
+  observers: [FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance)],
   initialLocation: HiveAccount.totalAccount() != 0
       ? AppRoutes.homeScreen
       : AppRoutes.onboard,

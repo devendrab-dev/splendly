@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:money_tracker/core/constants/app_colors.dart';
 import 'package:money_tracker/features/accounts/presentation/screens/accounts_list.dart';
+import 'package:money_tracker/features/analysis/presentation/screens/analysis_screen.dart';
 import 'package:money_tracker/features/home/presentation/screens/home_screen.dart';
 import 'package:money_tracker/features/transactions/presentation/screens/transaction_screen.dart';
 
@@ -15,6 +16,7 @@ class PlaceHolder extends StatefulWidget {
 class _PlaceHolderState extends State<PlaceHolder> {
   List<Widget> screens = [
     HomeScreen(),
+    AnalysisScreen(),
     TransactionScreen(),
     AccountsList(),
   ];
@@ -34,10 +36,10 @@ class _PlaceHolderState extends State<PlaceHolder> {
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: "Home"),
-          // BottomNavigationBarItem(
-          //   icon: Icon(LucideIcons.barChart3),
-          //   label: "Analysis",
-          // ),
+          BottomNavigationBarItem(
+            icon: Icon(LucideIcons.barChart3),
+            label: "Analysis",
+          ),
           BottomNavigationBarItem(icon: Icon(LucideIcons.plus), label: "Add"),
           BottomNavigationBarItem(
             icon: Icon(LucideIcons.landmark),

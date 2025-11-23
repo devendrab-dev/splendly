@@ -12,9 +12,9 @@ class TransferWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final form = ref.watch(transactionFormProvider);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      padding: const .symmetric(horizontal: 16, vertical: 10),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: .start,
         children: [
           Row(
             children: [
@@ -55,7 +55,7 @@ class TransferWidget extends ConsumerWidget {
           ),
           const SizedBox(height: 20),
           const Padding(
-            padding: EdgeInsets.only(left: 4, bottom: 6),
+            padding: .only(left: 4, bottom: 6),
             child: Text(
               "Amount",
               style: TextStyle(fontSize: 13, color: Colors.grey),
@@ -79,13 +79,11 @@ class TransferWidget extends ConsumerWidget {
                       }
                       return null;
                     },
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
+                    keyboardType: const .numberWithOptions(decimal: true),
                     inputFormatters: [AmountInputFormatter()],
                     style: const TextStyle(fontSize: 30),
                     decoration: const InputDecoration(
-                      border: InputBorder.none,
+                      border: .none,
                       isDense: true,
                       hintText: "0",
                       hintStyle: TextStyle(fontSize: 30),
@@ -113,7 +111,7 @@ class TransferWidget extends ConsumerWidget {
           const Divider(height: 30),
           const Text(
             "Other details",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 16, fontWeight: .w600),
           ),
           const SizedBox(height: 10),
           TextField(
@@ -125,8 +123,8 @@ class TransferWidget extends ConsumerWidget {
               filled: true,
               fillColor: Colors.grey.shade100,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide.none,
+                borderRadius: .circular(12),
+                borderSide: .none,
               ),
             ),
           ),

@@ -27,19 +27,19 @@ class _TransactionListState extends State<TransactionList> {
     return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: .spaceBetween,
           children: [
             Text("Recent Transactions", style: AppTextStyles.heading2),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 6, horizontal: 14),
+              padding: const .symmetric(vertical: 6, horizontal: 14),
               decoration: BoxDecoration(
                 color: AppColors.voilet20,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: .circular(16),
               ),
               child: Text(
                 "See All",
                 style: AppTextStyles.body.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: .w600,
                   color: AppColors.voilet,
                 ),
               ),

@@ -32,19 +32,19 @@ Future<void> showPaymentPicker(
             minChildSize: 0.40,
             builder: (_, controller) {
               return Padding(
-                padding: const EdgeInsets.all(20),
+                padding: const .all(20),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: .start,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: .spaceBetween,
                       children: [
                         Text("Select Payment", style: AppTextStyles.heading3),
                         IconButton(
                           onPressed: () => GoRouter.of(context).pop(),
                           icon: const Icon(
                             Icons.close,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: .bold,
                           ),
                         ),
                       ],
@@ -56,25 +56,25 @@ Future<void> showPaymentPicker(
                         itemCount: accounts.length,
                         itemBuilder: (context, index) {
                           return Container(
-                            padding: EdgeInsets.symmetric(vertical: 8),
+                            padding: .symmetric(vertical: 8),
                             decoration: BoxDecoration(
-                              border: Border.all(
+                              border: .all(
                                 width: 2,
                                 color: AppColors.borderColor,
                               ),
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: .circular(10),
                             ),
                             child: ListTile(
                               leading: Container(
                                 height: 30,
                                 width: 40,
-                                clipBehavior: Clip.antiAlias,
+                                clipBehavior: .antiAlias,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(6),
+                                  borderRadius: .circular(6),
                                 ),
                                 child: Image.asset(
                                   accounts[index].imagePath,
-                                  fit: BoxFit.fill,
+                                  fit: .fill,
                                 ),
                               ),
                               title: Text(accounts[index].accountType),

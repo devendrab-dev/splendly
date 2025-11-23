@@ -18,74 +18,63 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   List<AccountModel> accounts = [];
-  bool _isLoading = true;
 
   @override
   void initState() {
-    super.initState();
-    loadAccounts();
-  }
-
-  void loadAccounts() {
     accounts = HiveAccount.getAccountsList().accounts;
-    setState(() {
-      _isLoading = false;
-    });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Welcome To Home Page");
     int accountIndex = ref.watch(accountSelProvider);
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: _isLoading
-            ? Center(child: CircularProgressIndicator.adaptive())
-            : SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Text(
-                      "Account Balance",
-                      style: TextStyle(
-                        color: AppColors.secondaryText,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Text(
-                      formattedBalance(
-                        balance: accounts[accountIndex].balance.toString(),
-                      ),
-                      style: AppTextStyles.heading1,
-                    ),
-                    SizedBox(height: 12),
-                    Row(
-                      children: [
-                        CustomCard(
-                          type: "INCOME",
-                          iconPath: AppAssets.income,
-                          ruppee: formattedBalance(
-                            balance: accounts[accountIndex].income.toString(),
-                          ),
-                          color: AppColors.green,
-                        ),
-                        SizedBox(width: 12),
-                        CustomCard(
-                          type: "EXPENSE",
-                          iconPath: AppAssets.expense,
-                          ruppee: formattedBalance(
-                            balance: accounts[accountIndex].expense.toString(),
-                          ),
-                          color: AppColors.error,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 24),
-                    TransactionList(
-                      accountId: accounts[accountIndex].accountId,
-                    ),
-                  ],
+        padding: const .all(12),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text(
+                "Account Balance",
+                style: TextStyle(
+                  color: AppColors.secondaryText,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
+              Text(
+                formattedBalance(
+                  balance: accounts[accountIndex].balance.toString(),
+                ),
+                style: AppTextStyles.heading1,
+              ),
+              SizedBox(height: 12),
+              Row(
+                children: [
+                  CustomCard(
+                    type: "INCOME",
+                    iconPath: AppAssets.income,
+                    ruppee: formattedBalance(
+                      balance: accounts[accountIndex].income.toString(),
+                    ),
+                    color: AppColors.green,
+                  ),
+                  SizedBox(width: 12),
+                  CustomCard(
+                    type: "EXPENSE",
+                    iconPath: AppAssets.expense,
+                    ruppee: formattedBalance(
+                      balance: accounts[accountIndex].expense.toString(),
+                    ),
+                    color: AppColors.error,
+                  ),
+                ],
+              ),
+              SizedBox(height: 24),
+              TransactionList(accountId: accounts[accountIndex].accountId),
+            ],
+          ),
+        ),
       ),
     );
   }

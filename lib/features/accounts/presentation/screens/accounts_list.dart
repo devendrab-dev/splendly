@@ -32,7 +32,7 @@ class _AccountsListState extends State<AccountsList> {
         child: Container(
           padding: const EdgeInsets.all(16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: .start,
             children: [
               _buildTotalBalance(
                 context,
@@ -53,6 +53,7 @@ class _AccountsListState extends State<AccountsList> {
                 itemBuilder: (context, index) {
                   return _buildAccountCard(
                     context,
+                    id: accountResult.accounts[index].accountId,
                     index: index,
                     image: accountResult.accounts[index].imagePath,
                     name: accountResult.accounts[index].accountType,
@@ -109,6 +110,7 @@ class _AccountsListState extends State<AccountsList> {
   Widget _buildAccountCard(
     BuildContext context, {
     required int index,
+    required String id,
     required String image,
     required String name,
     required String balance,
@@ -164,8 +166,9 @@ class _AccountsListState extends State<AccountsList> {
               int groupValue = ref.watch(accountSelProvider);
               return RadioGroup(
                 groupValue: groupValue,
-                onChanged: (value) {
+                onChanged: (value) async {
                   ref.read(accountSelProvider.notifier).state = value ?? 0;
+                  await HiveAccount.selectedAccount(id);
                 },
                 child: Radio(value: index),
               );

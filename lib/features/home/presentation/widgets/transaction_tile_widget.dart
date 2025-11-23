@@ -12,42 +12,42 @@ class TransactionTile extends StatelessWidget {
 
   Color _amountColor(TransactionType type) {
     switch (type) {
-      case TransactionType.expense:
+      case .expense:
         return AppColors.error;
-      case TransactionType.income:
+      case .income:
         return Colors.green;
-      case TransactionType.transfer:
+      case .transfer:
         return Colors.blue;
     }
   }
 
   String _prefix(TransactionType type) {
-    return type == TransactionType.expense ? "-" : "+";
+    return type == .expense ? "-" : "+";
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(14),
-      margin: const EdgeInsets.symmetric(vertical: 6),
+      padding: const .all(14),
+      margin: const .symmetric(vertical: 6),
       decoration: BoxDecoration(
-        color: AppColors.cardBg, 
+        color: AppColors.cardBg,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: const .all(12),
             decoration: BoxDecoration(
               color: AppColors.chipBgColor,
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: .circular(18),
             ),
             child: SvgPicture.asset(model.iconPath, height: 26, width: 26),
           ),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: .start,
               children: [
                 Text(model.category, style: AppTextStyles.heading3),
                 if (model.note != null && model.note!.isNotEmpty)
@@ -62,7 +62,7 @@ class TransactionTile extends StatelessWidget {
             ),
           ),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: .end,
             children: [
               Text(
                 "${_prefix(model.transactionType)} ${model.amount.toStringAsFixed(2)}",
@@ -71,7 +71,7 @@ class TransactionTile extends StatelessWidget {
                 ),
               ),
               Text(
-                formatTime(model.dateTime), 
+                formatTime(model.dateTime),
                 style: TextStyle(color: AppColors.secondaryText, fontSize: 12),
               ),
             ],

@@ -30,10 +30,10 @@ class TransactionScreen extends ConsumerWidget {
             label: Text("Save"),
             onPressed: () {
               TransactionType value = type == 0
-                  ? TransactionType.expense
+                  ? .expense
                   : type == 1
-                  ? TransactionType.income
-                  : TransactionType.transfer;
+                  ? .income
+                  : .transfer;
               ref.read(transactionFormProvider).save(value, context);
             },
             icon: Icon(LucideIcons.saveAll),
@@ -43,7 +43,14 @@ class TransactionScreen extends ConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            AnimatedSegmentedControl(labels: labels),
+            AnimatedSegmentedControl(
+              labels: labels,
+              onChanged: (selectedIndex) {
+                ref.read(transactionTypeProvider.notifier).state =
+                    selectedIndex;
+                ref.read(transactionFormProvider).reset();
+              },
+            ),
             Consumer(
               builder: (context, ref, child) {
                 int type = ref.watch(transactionTypeProvider);
