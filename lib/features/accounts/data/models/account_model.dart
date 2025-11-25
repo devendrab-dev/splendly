@@ -12,6 +12,7 @@ class AccountModel {
   String accountType;
   String userName;
   double balance;
+  String accountName;
   int? cardNumber;
   String imagePath;
   double income;
@@ -22,6 +23,7 @@ class AccountModel {
     required this.accountType,
     required this.userName,
     required this.balance,
+    required this.accountName,
     required this.imagePath,
     this.income = 0,
     this.expense = 0,
@@ -32,6 +34,7 @@ class AccountModel {
     return <String, dynamic>{
       'accountId': accountId,
       'accountType': accountType,
+      'accountName': accountName,
       'userName': userName,
       'balance': balance,
       'cardNumber': cardNumber,
@@ -48,6 +51,7 @@ class AccountModel {
       userName: map['userName'] as String,
       balance: map['balance'] as double,
       cardNumber: map['cardNumber'] != null ? map['cardNumber'] as int : null,
+      accountName: map['accountName'],
       imagePath: map['imagePath'] as String,
       income: map['income'] ?? 0,
       expense: map['expense'] ?? 0,

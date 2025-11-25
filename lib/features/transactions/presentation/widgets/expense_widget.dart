@@ -80,9 +80,7 @@ class ExpenseWidget extends ConsumerWidget {
                       }
                       return null;
                     },
-                    keyboardType: const .numberWithOptions(
-                      decimal: true,
-                    ),
+                    keyboardType: const .numberWithOptions(decimal: true),
                     inputFormatters: [AmountInputFormatter()],
                     style: const TextStyle(fontSize: 30),
                     decoration: const InputDecoration(
@@ -107,9 +105,9 @@ class ExpenseWidget extends ConsumerWidget {
           ),
           const Divider(),
           rowTile(
-            icon: Icons.account_balance_wallet_outlined,
+            logo: form.fromAccount.imagePath,
             title: "Payment mode",
-            subtitle: form.fromAccount.accountType,
+            subtitle: form.fromAccount.accountName,
             onTap: () async => showPaymentPicker(context, ref),
           ),
           const Divider(height: 30),

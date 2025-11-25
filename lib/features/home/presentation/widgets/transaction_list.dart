@@ -53,9 +53,26 @@ class _TransactionListState extends State<TransactionList> {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: list.length,
-                reverse: true,
                 itemBuilder: (context, index) {
-                  return TransactionTile(model: list[index]);
+                  return Dismissible(
+                    key: ValueKey(list[index].id),
+                    direction: DismissDirection.endToStart,
+                    background: Container(
+                      alignment: Alignment.centerRight,
+                      padding: EdgeInsets.only(right: 20),
+                      color: Colors.red,
+                      child: Icon(Icons.delete, color: Colors.white),
+                    ),
+                    onDismissed: (_) async {
+                      await HiveTransaction.deleteTransactionById(
+                        list[index].id,
+                      );
+                      setState(() {
+                        list.removeAt(index);
+                      });
+                    },
+                    child: TransactionTile(model: list[index]),
+                  );
                 },
               ),
         SizedBox(height: 75),

@@ -19,12 +19,12 @@ class AppColors {
   static Color? grey300 = Colors.grey[300];
   static Color? grey600 = Colors.grey[600];
 
-  static Color green = Color.fromRGBO(0, 168, 107, 1);
+  static const Color green = Color.fromRGBO(0, 168, 107, 1);
 
-  static Color? chipBgColor = Color.fromRGBO(252, 238, 212, 1);
-  static Color? chipColor = Color.fromRGBO(252, 172, 18, 1);
-  static Color? voilet20 = Color.fromRGBO(238, 229, 255, 1);
-  static Color? voilet = Color.fromRGBO(127, 61, 255, 1);
+  static const Color chipBgColor = Color.fromRGBO(252, 238, 212, 1);
+  static const Color chipColor = Color.fromRGBO(252, 172, 18, 1);
+  static const Color voilet20 = Color.fromRGBO(238, 229, 255, 1);
+  static const Color voilet = Color.fromRGBO(127, 61, 255, 1);
 
   static const Color primaryText = Color(0xFF1A1A1A);
   static const Color secondaryText = Color(0xFF666666);

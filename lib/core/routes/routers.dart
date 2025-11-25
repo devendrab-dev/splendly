@@ -1,5 +1,6 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:go_router/go_router.dart';
+import 'package:money_tracker/core/widgets/applock_wrapper.dart';
 import 'package:money_tracker/features/accounts/data/hive_helper.dart';
 import 'package:money_tracker/features/accounts/presentation/screens/add_account.dart';
 import 'package:money_tracker/features/accounts/presentation/screens/success.dart';
@@ -43,7 +44,7 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.homeScreen,
-      builder: (context, state) => const PlaceHolder(),
+      builder: (context, state) => AppLockWrapper(child: PlaceHolder()),
     ),
     GoRoute(
       path: AppRoutes.transactionScreen,

@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:money_tracker/core/constants/hive_key.dart';
 import 'package:money_tracker/features/accounts/data/models/account_model.dart';
+import 'package:money_tracker/features/transactions/data/models/transaction_model.dart';
 
 class HiveAccount {
   static Future<void> saveAccount(AccountModel account) async {
@@ -98,6 +100,38 @@ class HiveAccount {
       accounts.removeAt(index);
       await saveAccountsList(accounts);
     }
+  }
+
+  static Future<void> updateOnDelete({
+    required String accountId,
+    required TransactionType type,
+    required double amount,
+  }) async {
+    List<AccountModel> accounts = getAccountsList().accounts;
+    int index = accounts.indexWhere((a) => a.accountId == accountId);
+
+    if (index == -1) {
+      debugPrint("Account not found for update: $accountId");
+      return;
+    }
+
+    AccountModel acc = accounts[index];
+    switch (type) {
+      case .expense:
+        acc.balance += amount;
+        acc.expense -= amount;
+        break;
+      case .income:
+        acc.balance -= amount;
+        acc.income -= amount;
+        break;
+      case .transfer:
+        break;
+    }
+
+    accounts[index] = acc;
+    await saveAccountsList(accounts);
+    debugPrint("Account updated after delete: $accountId");
   }
 
   static Future<void> clearAll() async {

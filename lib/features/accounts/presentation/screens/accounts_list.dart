@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:money_tracker/core/routes/routers.dart';
@@ -7,6 +8,7 @@ import 'package:money_tracker/core/theme/app_text_style.dart';
 import 'package:money_tracker/features/accounts/data/hive_helper.dart';
 import 'package:money_tracker/features/accounts/data/models/account_model.dart';
 import 'package:money_tracker/features/accounts/data/providers/providers.dart';
+import 'package:money_tracker/features/home/presentation/widgets/date_formater.dart';
 
 class AccountsList extends StatefulWidget {
   const AccountsList({super.key});
@@ -56,7 +58,7 @@ class _AccountsListState extends State<AccountsList> {
                     id: accountResult.accounts[index].accountId,
                     index: index,
                     image: accountResult.accounts[index].imagePath,
-                    name: accountResult.accounts[index].accountType,
+                    name: accountResult.accounts[index].accountName,
                     balance: doubleToStringBalance(
                       accountResult.accounts[index].balance,
                     ),
@@ -68,11 +70,12 @@ class _AccountsListState extends State<AccountsList> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           GoRouter.of(context).push(AppRoutes.addAccount);
         },
-        child: const Icon(LucideIcons.plus),
+        icon: const Icon(LucideIcons.plus),
+        label: Text("Account"),
       ),
     );
   }
@@ -132,14 +135,7 @@ class _AccountsListState extends State<AccountsList> {
       ),
       child: Row(
         children: [
-          Container(
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Image.asset(image, height: 48, width: 48),
-          ),
+          SvgPicture.asset(image, height: 48, width: 48),
           const SizedBox(width: 14),
           Expanded(
             child: Column(

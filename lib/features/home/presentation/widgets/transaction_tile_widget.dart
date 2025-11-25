@@ -71,7 +71,7 @@ class TransactionTile extends StatelessWidget {
                 ),
               ),
               Text(
-                formatTime(model.dateTime),
+                formatDateOrTime(model.dateTime),
                 style: TextStyle(color: AppColors.secondaryText, fontSize: 12),
               ),
             ],

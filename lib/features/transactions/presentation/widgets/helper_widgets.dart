@@ -42,10 +42,7 @@ Future<void> showPaymentPicker(
                         Text("Select Payment", style: AppTextStyles.heading3),
                         IconButton(
                           onPressed: () => GoRouter.of(context).pop(),
-                          icon: const Icon(
-                            Icons.close,
-                            fontWeight: .bold,
-                          ),
+                          icon: const Icon(Icons.close, fontWeight: .bold),
                         ),
                       ],
                     ),
@@ -56,7 +53,8 @@ Future<void> showPaymentPicker(
                         itemCount: accounts.length,
                         itemBuilder: (context, index) {
                           return Container(
-                            padding: .symmetric(vertical: 8),
+                            margin: .symmetric(vertical: 4),
+                            padding: .symmetric(vertical: 4),
                             decoration: BoxDecoration(
                               border: .all(
                                 width: 2,
@@ -72,12 +70,12 @@ Future<void> showPaymentPicker(
                                 decoration: BoxDecoration(
                                   borderRadius: .circular(6),
                                 ),
-                                child: Image.asset(
+                                child: SvgPicture.asset(
                                   accounts[index].imagePath,
                                   fit: .fill,
                                 ),
                               ),
-                              title: Text(accounts[index].accountType),
+                              title: Text(accounts[index].accountName),
                               trailing: RadioGroup<int>(
                                 groupValue: radioValue,
                                 onChanged: (value) {
@@ -90,6 +88,7 @@ Future<void> showPaymentPicker(
                                   } else {
                                     controller.setFromAccount(accounts[index]);
                                   }
+                                  GoRouter.of(context).pop();
                                 },
                                 child: Radio(value: index),
                               ),
@@ -203,7 +202,8 @@ Future<AppCategory?> showCategoryPicker(
 }
 
 Widget rowTile({
-  required IconData icon,
+  IconData? icon,
+  String? logo,
   required String title,
   String? subtitle,
   VoidCallback? onTap,
@@ -214,7 +214,11 @@ Widget rowTile({
       padding: const EdgeInsets.symmetric(vertical: 14),
       child: Row(
         children: [
-          Icon(icon, size: 22, color: Colors.grey.shade700),
+          icon != null
+              ? Icon(icon, size: 22, color: Colors.grey.shade700)
+              : logo != null
+              ? SvgPicture.asset(logo, height: 32, width: 32)
+              : SizedBox(),
           const SizedBox(width: 15),
           Expanded(
             child: Column(

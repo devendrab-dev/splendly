@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:money_tracker/core/constants/hive_key.dart';
+import 'package:money_tracker/features/accounts/data/hive_helper.dart';
 import 'package:money_tracker/features/transactions/data/models/transaction_model.dart';
 
 class HiveTransaction {
@@ -34,12 +35,16 @@ class HiveTransaction {
 
   static List<TransactionModel> getTransactionsListById(String id) {
     var box = Hive.box(HiveKey.boxName);
+
     List transactionsMapList = box.get(HiveKey.expenseData, defaultValue: []);
-    debugPrint("Fetching Transaction for Transaction id: $id");
-    return transactionsMapList
-        .where((map) => map['fromAccountId'] == id)
+
+    List<TransactionModel> txList = transactionsMapList
+        .where((map) => map['fromAccountId'].toString() == id.toString())
         .map((map) => TransactionModel.fromMap(Map<String, dynamic>.from(map)))
         .toList();
+
+    txList.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+    return txList;
   }
 
   static TransactionGraphData getTransactionsBarListByFilter(String filter) {
@@ -143,7 +148,6 @@ class HiveTransaction {
       labels.add("${now.year}");
     }
 
-    // Categories
     List<Categories> incomeCategories =
         incomeCategoryMap.entries
             .map((e) => Categories(e.key, e.value))
@@ -156,7 +160,6 @@ class HiveTransaction {
             .toList()
           ..sort((a, b) => b.total.compareTo(a.total));
 
-    // Summary calculation
     double totalAmount = filteredTransactions.fold(
       0,
       (sum, tx) => sum + tx.amount,
@@ -207,15 +210,24 @@ class HiveTransaction {
     );
   }
 
-  static Future<void> deleteTransactionAt(int index) async {
-    var transactions = getTransactionsList();
-    if (index >= 0 && index < transactions.length) {
-      transactions.removeAt(index);
-      await saveTransactionsList(transactions);
-      debugPrint("Deleted Transaction ${transactions[index].id}");
-      return;
+  static Future<bool> deleteTransactionById(String txId) async {
+    final box = Hive.box(HiveKey.boxName);
+    final List rawList = box.get(HiveKey.expenseData, defaultValue: []);
+    final int index = rawList.indexWhere((item) => item["id"] == txId);
+    if (index == -1) {
+      debugPrint("Transaction not found: $txId");
+      return false;
     }
-    debugPrint("Transaction not found, Transaction Deletion Failed");
+    final tx = rawList[index];
+    await HiveAccount.updateOnDelete(
+      accountId: tx["fromAccountId"],
+      type: tx["transactionType"],
+      amount: tx["amount"],
+    );
+    rawList.removeAt(index);
+    await box.put(HiveKey.expenseData, rawList);
+    debugPrint("Transaction deleted: $txId at index $index");
+    return true;
   }
 
   static Future<void> clearAll() async {

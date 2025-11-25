@@ -48,4 +48,12 @@ class AppAssets {
   static const String masterCard =
       'assets/images/accounts/cards/master_card.svg';
   static const String rupayCard = 'assets/images/accounts/cards/rupay_card.svg';
+
+  //UPI logos
+  static const String googlePay = 'assets/images/accounts/upi/googlePay.svg';
+  static const String phonepe = 'assets/images/accounts/upi/phonepe.svg';
+  static const String paytm = 'assets/images/accounts/upi/paytm.svg';
+  static const String bhim = 'assets/images/accounts/upi/bhim.svg';
+  static const String amazonPay= 'assets/images/accounts/upi/amazonPay.svg';
+
 }

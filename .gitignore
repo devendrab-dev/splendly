@@ -33,6 +33,7 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
+scan.sh
 
 # Symbolication related
 app.*.symbols
