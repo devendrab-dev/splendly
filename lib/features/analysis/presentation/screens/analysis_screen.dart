@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:money_tracker/core/theme/app_text_style.dart';
 import 'package:money_tracker/features/analysis/presentation/widgets/bar_grapgh.dart';
 import 'package:money_tracker/features/analysis/presentation/widgets/category_chart.dart';
+import 'package:money_tracker/features/analysis/presentation/widgets/month_navigation.dart';
 import 'package:money_tracker/features/analysis/presentation/widgets/summary.dart';
+import 'package:money_tracker/features/analysis/presentation/widgets/week_navigation.dart';
+import 'package:money_tracker/features/analysis/presentation/widgets/year_nav.dart';
 import 'package:money_tracker/features/transactions/data/hive_storage.dart';
 import 'package:money_tracker/features/transactions/data/models/transaction_model.dart';
 import 'package:money_tracker/features/transactions/presentation/widgets/segement_button.dart';
@@ -25,9 +28,13 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
   );
   List<TransactionModel> transactionList = [];
   final List<String> labels = ["Week", "Month", "Year"];
+
+  int _offset = 0;
+  int _filterIndex = 0;
+
   @override
   void initState() {
-    data = HiveTransaction.getTransactionsBarListByFilter(labels[0]);
+    data = HiveTransaction.getTransactionsBarData(labels[_filterIndex]);
     transactionList = HiveTransaction.getTransactionsList();
     super.initState();
   }
@@ -47,12 +54,54 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                 labels: labels,
                 onChanged: (index) {
                   setState(() {
-                    data = HiveTransaction.getTransactionsBarListByFilter(
+                    _filterIndex = index;
+                    _offset = 0;
+                    data = HiveTransaction.getTransactionsBarData(
                       labels[index],
                     );
                   });
                 },
               ),
+              SizedBox(height: 20),
+              if (_filterIndex == 0)
+                WeekNavigationWidget(
+                  weekOffset: _offset,
+                  onChanged: (week) {
+                    setState(() {
+                      _offset = week;
+                      data = HiveTransaction.getTransactionsBarData(
+                        labels[0],
+                        timeOffset: week,
+                      );
+                    });
+                  },
+                ),
+              if (_filterIndex == 1)
+                MonthNavigationWidget(
+                  monthOffset: _offset,
+                  onChanged: (month) {
+                    setState(() {
+                      _offset = month;
+                      data = HiveTransaction.getTransactionsBarData(
+                        labels[1],
+                        timeOffset: month,
+                      );
+                    });
+                  },
+                ),
+              if (_filterIndex == 2)
+                YearNavigationWidget(
+                  yearOffset: _offset,
+                  onChanged: (year) {
+                    setState(() {
+                      _offset = year;
+                      data = HiveTransaction.getTransactionsBarData(
+                        labels[2],
+                        timeOffset: year,
+                      );
+                    });
+                  },
+                ),
               SizedBox(height: 20),
               IncomeExpenseData(
                 expenseData: data.expense,

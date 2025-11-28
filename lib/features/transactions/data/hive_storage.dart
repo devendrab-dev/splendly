@@ -53,13 +53,18 @@ class HiveTransaction {
     return txList;
   }
 
-  static TransactionGraphData getTransactionsBarListByFilter(String filter) {
+  static TransactionGraphData getTransactionsBarData(
+    String filter, {
+    int timeOffset = 0,
+  }) {
     var box = Hive.box(HiveKey.boxName);
     List transactionsMapList = box.get(HiveKey.expenseData, defaultValue: []);
 
     List<TransactionModel> transactions = transactionsMapList
         .map((map) => TransactionModel.fromMap(Map<String, dynamic>.from(map)))
         .toList();
+
+    transactions.sort((a, b) => a.dateTime.compareTo(b.dateTime));
 
     List<double> income = [];
     List<double> expense = [];
@@ -68,12 +73,16 @@ class HiveTransaction {
     Map<String, double> incomeCategoryMap = {};
     Map<String, double> expenseCategoryMap = {};
 
-    final now = DateTime.now();
     List<TransactionModel> filteredTransactions = [];
+    final now = DateTime.now();
 
     if (filter == "Week") {
-      for (int i = 6; i >= 0; i--) {
-        final day = DateTime(now.year, now.month, now.day - i);
+      final startOfWeek = now.subtract(
+        Duration(days: now.weekday - 1 + 7 * timeOffset),
+      );
+
+      for (int i = 0; i < 7; i++) {
+        final day = startOfWeek.add(Duration(days: i));
         labels.add("${day.day}/${day.month}");
 
         double dayIncome = 0;
@@ -95,14 +104,25 @@ class HiveTransaction {
             }
           }
         }
+
         income.add(dayIncome);
         expense.add(dayExpense);
       }
     } else if (filter == "Month") {
-      final daysInMonth = DateTime(now.year, now.month + 1, 0).day;
+      final firstDayOfMonth = DateTime(now.year, now.month - timeOffset, 1);
+      final daysInMonth = DateTime(
+        firstDayOfMonth.year,
+        firstDayOfMonth.month + 1,
+        0,
+      ).day;
+
       for (int dayNum = 1; dayNum <= daysInMonth; dayNum++) {
-        final day = DateTime(now.year, now.month, dayNum);
-        labels.add(dayNum.toString());
+        final day = DateTime(
+          firstDayOfMonth.year,
+          firstDayOfMonth.month,
+          dayNum,
+        );
+        labels.add("${day.day}/${day.month}");
 
         double dayIncome = 0;
         double dayExpense = 0;
@@ -128,8 +148,10 @@ class HiveTransaction {
         expense.add(dayExpense);
       }
     } else if (filter == "Year") {
+      final targetYear = now.year - timeOffset;
+
       for (var tx in transactions) {
-        if (tx.dateTime.year == now.year) {
+        if (tx.dateTime.year == targetYear) {
           filteredTransactions.add(tx);
           if (tx.transactionType == TransactionType.income) {
             incomeCategoryMap[tx.category] =
@@ -150,7 +172,7 @@ class HiveTransaction {
 
       income.add(yearIncome);
       expense.add(yearExpense);
-      labels.add("${now.year}");
+      labels.add("$targetYear");
     }
 
     List<Categories> incomeCategories =
