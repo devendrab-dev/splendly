@@ -4,6 +4,7 @@ import 'package:money_tracker/core/widgets/applock_wrapper.dart';
 import 'package:money_tracker/features/accounts/data/hive_helper.dart';
 import 'package:money_tracker/features/accounts/presentation/screens/add_account.dart';
 import 'package:money_tracker/features/accounts/presentation/screens/success.dart';
+import 'package:money_tracker/features/transactions/presentation/screens/all_transactions_screen.dart';
 import 'package:money_tracker/features/home/presentation/screens/place_holder.dart';
 import 'package:money_tracker/features/onboarding/presentation/screens/onboardscreen.dart';
 import 'package:money_tracker/features/transactions/presentation/screens/transaction_screen.dart';
@@ -19,6 +20,7 @@ class AppRoutes {
 
   static const String homeScreen = "/home";
   static const String transactionScreen = "/transactions";
+  static const String allTransactionScreen = "/allTransactions";
 }
 
 final appRouter = GoRouter(
@@ -49,6 +51,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.transactionScreen,
       builder: (context, state) => TransactionScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.allTransactionScreen,
+      builder: (context, state) => AllTransactionsScreen(),
     ),
   ],
 );

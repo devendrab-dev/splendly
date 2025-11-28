@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:money_tracker/core/constants/app_colors.dart';
+import 'package:money_tracker/core/routes/routers.dart';
 import 'package:money_tracker/core/theme/app_text_style.dart';
 import 'package:money_tracker/features/home/presentation/widgets/transaction_tile_widget.dart';
 import 'package:money_tracker/features/transactions/data/hive_storage.dart';
@@ -30,17 +32,22 @@ class _TransactionListState extends State<TransactionList> {
           mainAxisAlignment: .spaceBetween,
           children: [
             Text("Recent Transactions", style: AppTextStyles.heading2),
-            Container(
-              padding: const .symmetric(vertical: 6, horizontal: 14),
-              decoration: BoxDecoration(
-                color: AppColors.voilet20,
-                borderRadius: .circular(16),
-              ),
-              child: Text(
-                "See All",
-                style: AppTextStyles.body.copyWith(
-                  fontWeight: .w600,
-                  color: AppColors.voilet,
+            GestureDetector(
+              onTap: () => GoRouter.of(
+                context,
+              ).push(AppRoutes.allTransactionScreen),
+              child: Container(
+                padding: const .symmetric(vertical: 6, horizontal: 14),
+                decoration: BoxDecoration(
+                  color: AppColors.voilet20,
+                  borderRadius: .circular(16),
+                ),
+                child: Text(
+                  "See All",
+                  style: AppTextStyles.body.copyWith(
+                    fontWeight: .w600,
+                    color: AppColors.voilet,
+                  ),
                 ),
               ),
             ),
@@ -54,25 +61,7 @@ class _TransactionListState extends State<TransactionList> {
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: list.length,
                 itemBuilder: (context, index) {
-                  return Dismissible(
-                    key: ValueKey(list[index].id),
-                    direction: DismissDirection.endToStart,
-                    background: Container(
-                      alignment: Alignment.centerRight,
-                      padding: EdgeInsets.only(right: 20),
-                      color: Colors.red,
-                      child: Icon(Icons.delete, color: Colors.white),
-                    ),
-                    onDismissed: (_) async {
-                      await HiveTransaction.deleteTransactionById(
-                        list[index].id,
-                      );
-                      setState(() {
-                        list.removeAt(index);
-                      });
-                    },
-                    child: TransactionTile(model: list[index]),
-                  );
+                  return TransactionTile(model: list[index]);
                 },
               ),
         SizedBox(height: 75),

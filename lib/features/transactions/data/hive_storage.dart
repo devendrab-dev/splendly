@@ -28,9 +28,15 @@ class HiveTransaction {
     var box = Hive.box(HiveKey.boxName);
     List transactionsMapList = box.get(HiveKey.expenseData, defaultValue: []);
     debugPrint("Got Total of ${transactionsMapList.length} Transactions");
-    return transactionsMapList
+
+    List<TransactionModel> result = transactionsMapList
         .map((map) => TransactionModel.fromMap(Map<String, dynamic>.from(map)))
         .toList();
+
+    result.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+
+    debugPrint("📊 Sorted transactions by date (new to old)");
+    return result;
   }
 
   static List<TransactionModel> getTransactionsListById(String id) {
@@ -89,7 +95,6 @@ class HiveTransaction {
             }
           }
         }
-
         income.add(dayIncome);
         expense.add(dayExpense);
       }

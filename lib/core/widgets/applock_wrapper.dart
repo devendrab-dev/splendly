@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:money_tracker/core/theme/app_text_style.dart';
 import 'package:money_tracker/core/widgets/secure_app.dart';
 
 class AppLockWrapper extends StatefulWidget {
@@ -22,7 +23,7 @@ class _AppLockWrapperState extends State<AppLockWrapper>
     debugPrint("🔒 [LOCK] AppLockWrapper initialized");
 
     Future.microtask(() {
-      _authenticate(); 
+      _authenticate();
     });
   }
 
@@ -62,7 +63,26 @@ class _AppLockWrapperState extends State<AppLockWrapper>
   Widget build(BuildContext context) {
     debugPrint("🎨 [LOCK] Building AppLockWrapper → locked: $locked");
     return locked
-        ? const Scaffold(body: Center(child: Text("Locked")))
+        ? Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("🔒 App Locked", style: AppTextStyles.heading2),
+                  const SizedBox(height: 16),
+                  Text("Tap button to unlock", style: AppTextStyles.body),
+                  const SizedBox(height: 28),
+                  ElevatedButton(
+                    onPressed: () {
+                      debugPrint("🔓 [LOCK] Manual unlock requested");
+                      _authenticate();
+                    },
+                    child: const Text("Unlock"),
+                  ),
+                ],
+              ),
+            ),
+          )
         : widget.child;
   }
 

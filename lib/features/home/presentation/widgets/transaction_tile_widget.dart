@@ -32,7 +32,7 @@ class TransactionTile extends StatelessWidget {
       margin: const .symmetric(vertical: 6),
       decoration: BoxDecoration(
         color: AppColors.cardBg,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: .circular(16),
       ),
       child: Row(
         children: [

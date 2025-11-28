@@ -54,6 +54,5 @@ class AppAssets {
   static const String phonepe = 'assets/images/accounts/upi/phonepe.svg';
   static const String paytm = 'assets/images/accounts/upi/paytm.svg';
   static const String bhim = 'assets/images/accounts/upi/bhim.svg';
-  static const String amazonPay= 'assets/images/accounts/upi/amazonPay.svg';
-
+  static const String amazonPay= 'assets/images/accounts/upi/amazonpay.svg';
 }
