@@ -1,37 +1,60 @@
 import 'dart:convert';
 
+class AccountResult {
+  final List<AccountModel> accounts;
+  final double total;
+
+  AccountResult({required this.accounts, required this.total});
+}
+
 class AccountModel {
+  String accountId;
   String accountType;
   String userName;
   double balance;
+  String accountName;
   int? cardNumber;
   String imagePath;
+  double income;
+  double expense;
 
   AccountModel({
+    required this.accountId,
     required this.accountType,
     required this.userName,
     required this.balance,
+    required this.accountName,
     required this.imagePath,
+    this.income = 0,
+    this.expense = 0,
     this.cardNumber,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'accountId': accountId,
       'accountType': accountType,
+      'accountName': accountName,
       'userName': userName,
       'balance': balance,
       'cardNumber': cardNumber,
       'imagePath': imagePath,
+      'income': income,
+      'expense': expense,
     };
   }
 
   factory AccountModel.fromMap(Map<String, dynamic> map) {
     return AccountModel(
+      accountId: map['accountId'] as String,
       accountType: map['accountType'] as String,
       userName: map['userName'] as String,
       balance: map['balance'] as double,
       cardNumber: map['cardNumber'] != null ? map['cardNumber'] as int : null,
+      accountName: map['accountName'],
       imagePath: map['imagePath'] as String,
+      income: map['income'] ?? 0,
+      expense: map['expense'] ?? 0,
     );
   }
 

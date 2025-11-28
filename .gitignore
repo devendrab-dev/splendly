@@ -3,6 +3,7 @@
 *.log
 *.pyc
 *.swp
+*.json
 .DS_Store
 .atom/
 .build/
@@ -32,6 +33,7 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
+scan.sh
 
 # Symbolication related
 app.*.symbols
@@ -43,3 +45,4 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/lib/firebase_options.dart

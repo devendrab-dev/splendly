@@ -1,40 +1,82 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:money_tracker/core/constants/app_assets.dart';
+import 'package:money_tracker/core/constants/app_colors.dart';
+import 'package:money_tracker/core/theme/app_text_style.dart';
 import 'package:money_tracker/features/accounts/data/hive_helper.dart';
 import 'package:money_tracker/features/accounts/data/models/account_model.dart';
+import 'package:money_tracker/features/accounts/data/providers/providers.dart';
+import 'package:money_tracker/features/home/presentation/widgets/custom_card.dart';
+import 'package:money_tracker/features/home/presentation/widgets/date_formater.dart';
+import 'package:money_tracker/features/home/presentation/widgets/transaction_list.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  List<AccountModel> accounts = [];
+
+  @override
+  void initState() {
+    accounts = HiveAccount.getAccountsList().accounts;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    List<AccountModel> accounts = HiveAccount.getAccountsList();
-
-    for (var acc in accounts) {
-      debugPrint(
-        'Name: ${acc.userName}, Type: ${acc.accountType}, Balance: ${acc.balance}, Card: ${acc.cardNumber}, Image: ${acc.imagePath}',
-      );
-    }
-
-    return Scaffold(
-      appBar: AppBar(title: const Text("Home Page")),
-      body: accounts.isEmpty
-          ? const Center(child: Text("No accounts saved"))
-          : ListView.builder(
-              itemCount: accounts.length,
-              itemBuilder: (context, index) {
-                final acc = accounts[index];
-                return ListTile(
-                  title: Text(acc.userName),
-                  subtitle: Text('${acc.accountType} - ₹${acc.balance}'),
-                  leading: acc.imagePath.isNotEmpty
-                      ? Image.asset(acc.imagePath, width: 40, height: 40)
-                      : null,
-                  trailing: acc.cardNumber != null
-                      ? Text(acc.cardNumber.toString())
-                      : null,
-                );
-              },
-            ),
+    debugPrint("Welcome To Home Page");
+    int accountIndex = ref.watch(accountSelProvider);
+    return SafeArea(
+      child: Padding(
+        padding: const .all(12),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text(
+                "Account Balance",
+                style: TextStyle(
+                  color: AppColors.secondaryText,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              Text(
+                formattedBalance(
+                  balance: accounts[accountIndex].balance.toString(),
+                ),
+                style: AppTextStyles.heading1,
+              ),
+              SizedBox(height: 12),
+              Row(
+                children: [
+                  CustomCard(
+                    type: "INCOME",
+                    iconPath: AppAssets.income,
+                    ruppee: formattedBalance(
+                      balance: accounts[accountIndex].income.toString(),
+                    ),
+                    color: AppColors.green,
+                  ),
+                  SizedBox(width: 12),
+                  CustomCard(
+                    type: "EXPENSE",
+                    iconPath: AppAssets.expense,
+                    ruppee: formattedBalance(
+                      balance: accounts[accountIndex].expense.toString(),
+                    ),
+                    color: AppColors.error,
+                  ),
+                ],
+              ),
+              SizedBox(height: 24),
+              TransactionList(accountId: accounts[accountIndex].accountId),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
