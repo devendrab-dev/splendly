@@ -19,6 +19,7 @@ class _PlaceHolderState extends State<PlaceHolder> {
     AnalysisScreen(),
     TransactionScreen(),
     AccountsList(),
+    // MoreScreen(),
   ];
   int _currentIndex = 0;
 
@@ -29,6 +30,7 @@ class _PlaceHolderState extends State<PlaceHolder> {
         selectedItemColor: AppColors.primary,
         unselectedItemColor: AppColors.grey600,
         showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
         onTap: (value) {
           _currentIndex = value;
           setState(() {});

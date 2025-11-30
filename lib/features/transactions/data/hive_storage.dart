@@ -16,7 +16,7 @@ class HiveTransaction {
   }
 
   static Future<void> saveTransactionsList(
-    List<TransactionModel> transactions,
+    List<TransactionModel> transactions
   ) async {
     var box = Hive.box(HiveKey.boxName);
     List transactionsMap = transactions.map((a) => a.toMap()).toList();

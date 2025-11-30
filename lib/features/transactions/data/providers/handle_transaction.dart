@@ -80,10 +80,10 @@ class TransactionFormProvider extends ChangeNotifier {
       double amount = double.parse(amountCtrl.text.trim());
       if (type == .transfer) {
         if (toAccount.accountId == fromAccount.accountId) {
-          showBottomMessage(
-            context,
-            "Can't Transfer amount to Same account",
-            isSucees: false,
+          showModernSnackBar(
+            context: context,
+            message: "Can't Transfer amount to Same account",
+            type: .error,
           );
           return;
         }
@@ -135,7 +135,11 @@ class TransactionFormProvider extends ChangeNotifier {
         "\n-------------------------------",
       );
       if (!context.mounted) return;
-      showBottomMessage(context, "Transaction completed");
+      showModernSnackBar(
+        context: context,
+        message: "Transaction completed",
+        type: .success,
+      );
     }
   }
 

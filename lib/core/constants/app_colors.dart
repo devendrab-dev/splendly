@@ -33,6 +33,7 @@ class AppColors {
   static const Color success = Color(0xFF4CAF50);
   static const Color error = Color(0xFFF44336);
   static const Color warning = Color(0xFFFFC107);
+  static const Color information = Colors.blue;
 
   static const Gradient primaryGradient = LinearGradient(
     colors: [Color(0xFF5B2DFD), Color(0xFF4A22D6)],
